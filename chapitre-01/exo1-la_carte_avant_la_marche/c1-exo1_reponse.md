@@ -1,7 +1,7 @@
 # Rendu de jenga info
 
-nombre de projet: 1  
+nombre de projet: 267 
 type: consoleapp()  
 nombre de chaine de compilation: 5  
-projet de demarrage: hello  
-fichier qui sert de racine au workspace: 01_hello_console.jenga
+projet de demarrage: Sanbox 
+fichier qui sert de racine au workspace: nkentseu.jenga

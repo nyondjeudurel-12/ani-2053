@@ -11,3 +11,5 @@ j'ai obtenu 1631791 lignes !=  1193385 lignes .
 # Conclusion
 
  Cette difference est probablement du au fait que je ne connais pas entierement toutes les extensions de l'ensemble des fichiers contenue dans le dossier nkentseu.
+
+ j'ai belle et bien compter les en-tetes et les builds ainsi que les fichiers test.
