@@ -1,45 +1,7 @@
 # EXERCICE 10
 
-* voici les 7 dependances directes de NKCanvas :
-
--NKWindow
--NKFont
--NKImage
--NKStream
--NKTime
--NKGlad
--NKThreading
-
-* GRAPHE:
+* je commence par lancer NkCanvas.jenga :
 ```
-                         NKCanvas
-                            │
-        ┌───────────┬───────┼────────┬─────────┬────────┬───────────┐
-        │           │       │        │         │        │           │
-
-    NKWindow     NKFont  NKImage  NKStream  NKTime  NKGlad   NKThreading
-        │           │       │        │         │        │           │
-        │           │       │        │         │        │           │
-     
- ┌────────────┐ ┌────────┐ ┌──────────────┐ ┌────────┐      ┌────────────┐
- │NKContainers│ │NKPlat. │ │NKContainers  │ │NKCont. │      │NKContainers│
- │NKCore      │ │NKCore  │ │NKCore        │ │NKCore  │      │NKCore      │
- │NKEvent     │ │NKMemory│ │NKFileSystem  │ │NKLogger│      │NKMemory    │
- │NKFileSystem│ │NKMath  │ │NKLogger      │ │NKMemory│      │NKPlatform  │
- │NKLogger    │ │NKCont. │ │NKMath        │ │NKPlat. │      └────────────┘
- │NKMath      │ │NKThread│ │NKMemory      │ │NKThread│  
- │NKMemory    │ │        │ │NKPlatform    │ └────────┘  
- │NKPlatform  │ │        │ │NKStream      │             
- │NKThreading │ │        │ │NKThreading   │             
- │NKTime      │ │        │ └──────────────┘             
- └────────────┘ └────────┘                              
-   ````                                                     
-                                               
-                                               
- * Il faut construire 17 projets avec lui.
-
-PS C:\Users\cloth\OneDrive\Bureau\Nouveau dossier\Nkentseu> py "C:\Users\cloth\OneDrive\Bureau\Nouveau dossier\Jenga\Jenga\Jenga.py" build --target NKCanvas
-
 ╔══════════════════════════════════════════════════════════════════╗
 ║                                                                  ║
 ║                ██╗███████╗███╗   ██╗ ██████╗  █████╗             ║
@@ -78,3 +40,45 @@ Build Order (17 projects):
   15. NKImage [STATIC_LIB] (depends: NKContainers, NKCore, NKFileSystem, NKLogger, NKMath, NKMemory, NKPlatform, NKStream, NKThreading) → 
   16. NKUI [STATIC_LIB] (depends: NKContainers, NKCore, NKEvent, NKFileSystem, NKFont, NKImage, NKLogger, NKMath, NKMemory, NKPlatform, NKThreading) → 
   17. NKCanvas [STATIC_LIB] (depends: NKContainers, NKCore, NKEvent, NKFileSystem, NKFont, NKGlad, NKImage, NKLogger, NKMath, NKMemory, NKPlatform, NKStream, NKThreading, NKTime, NKUI, NKWindow)
+```
+
+* voici les 7 dependances directes de NKCanvas :
+
+-NKWindow
+-NKFont
+-NKImage
+-NKStream
+-NKTime
+-NKGlad
+-NKThreading
+
+* GRAPHE:
+```
+                         NKCanvas
+                            │
+        ┌───────────┬───────┼────────┬─────────┬────────┬───────────┐
+        │           │       │        │         │        │           │
+
+    NKWindow     NKFont  NKImage  NKStream  NKTime  NKGlad   NKThreading
+        │           │       │        │         │        │           │
+        │           │       │        │         │        │           │
+     
+ ┌────────────┐ ┌────────┐ ┌──────────────┐ ┌────────┐      ┌────────────┐
+ │NKContainers│ │NKPlat. │ │NKContainers  │ │NKCont. │      │NKContainers│
+ │NKCore      │ │NKCore  │ │NKCore        │ │NKCore  │      │NKCore      │
+ │NKEvent     │ │NKMemory│ │NKFileSystem  │ │NKLogger│      │NKMemory    │
+ │NKFileSystem│ │NKMath  │ │NKLogger      │ │NKMemory│      │NKPlatform  │
+ │NKLogger    │ │NKCont. │ │NKMath        │ │NKPlat. │      └────────────┘
+ │NKMath      │ │NKThread│ │NKMemory      │ │NKThread│  
+ │NKMemory    │ │        │ │NKPlatform    │ └────────┘  
+ │NKPlatform  │ │        │ │NKStream      │             
+ │NKThreading │ │        │ │NKThreading   │             
+ │NKTime      │ │        │ └──────────────┘             
+ └────────────┘ └────────┘                              
+   ````                                                     
+   * **CONCLUSION**:
+   ***                                            
+                                               
+Il faut donc construire 17 projets avec lui.
+
+
