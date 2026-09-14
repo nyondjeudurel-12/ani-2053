@@ -1,5 +1,5 @@
 # DEBUG AND RELEASE 
-# EXERCICE 7:
+# EXERCICE 8:
 
 j'utilise le projet NKMath je le construit avec les configurations Debug et Release:
 
