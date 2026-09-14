@@ -758,4 +758,4 @@ Time:           18.80s
 
 * CONCLUSION
 ***
- Elle peut être due a la memoire  cache, aux dépendances à recompiler, à l’utilisation du processeur et de la mémoire, ainsi aussi aux opérations effectuées sur le système pendant la compilation. 
+ Elle peut être due a la memoire  cache, aux dépendances à recompiler, à l’utilisation du processeur et de la mémoire, ainsi aussi aux opérations effectuées sur système pendant la compilation. Ainsi, un même fichier peut nécessiter des temps de compilation différents d’une exécution à l’autre.
