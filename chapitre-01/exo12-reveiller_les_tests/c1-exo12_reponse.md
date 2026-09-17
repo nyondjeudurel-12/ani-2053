@@ -1,22 +1,28 @@
 # EXERCICE 12:
+# Ce qui sera verifier..
 
-* La ligne qui desactive la compilation de test dans Le workspace est dutc(enable=True) .sert à activer la compilation des tests unitaires dans la configuration du workspace. DUTC signifie quelque chose comme Disable/Enable Unit Test Compilation.
+* La ligne qui desactive la compilation de test dans Le workspace est
+``` 
+dutc(enable=True)  
+dutc(enable=True)
+```
+   elle sert à activer la compilation des tests unitaires dans la configuration du workspace. DUTC signifie quelque chose comme Disable/Enable Unit Test Compilation.
 
-* L'exécution est également désactivée avec dute(enable=True) .
-
-* Pour lancer malgré tout la suite de tests de NKMath, j'ai utilisé 
+* L'exécution est  désactivée avec
+``` 
+dute(enable=True) .
+```
+* Pour savoir quelle tests pouvais build j'ai utiliser cette commande :
+```
+Get-ChildItem -Recurse -Directory | Where-Object { $_.Name -eq "tests" }
+```
+* Pour lancer quand meme le test de NKMemory, j'ai utilisé: 
 
 ```
-test --project NKMath_Tests --force.
+jenga test --project NKMemory_Tests --force-test
 ```
-
-Le workspace contient 61 suites de tests. La suite NKMath_Tests a été sélectionnée, mais 0 suite n'a pu être exécutée et 0 n'a réussi, car sa compilation a échoué.
-
-L'erreur provient de test_smoke.cpp, car NkRect est inconnu.
-
-Jenga a néanmoins construit les 6 projets précédents sur les 7 de l'ordre de construction avant de s'arrêter.
-
-````
+* RESULTAT:
+```
 
 ╔══════════════════════════════════════════════════════════════════╗
 ║                                                                  ║
@@ -32,7 +38,7 @@ Jenga a néanmoins construit les 6 projets précédents sur les 7 de l'ordre de 
 ╚══════════════════════════════════════════════════════════════════╝
 
 [NKCode] ATTENTION : aucun wheel Jenga trouve (dist/*.whl) -> le paquet n'aura PAS de Jenga embarque, et les boutons Construire/Executer seront inoperants. Produisez-le avec ./cri.sh dans le depot Jenga.
-Building NKMath_Tests...
+Building NKMemory_Tests...
 Loading workspace...
 [NKCode] ATTENTION : aucun wheel Jenga trouve (dist/*.whl) -> le paquet n'aura PAS de Jenga embarque, et les boutons Construire/Executer seront inoperants. Produisez-le avec ./cri.sh dans le depot Jenga.
 ℹ Workspace policy disableunittestcompilation lifted for this invocation (--force).
@@ -41,14 +47,12 @@ Configuration: Debug
 Target:        Windows x86_64
 Toolchain:     clang-mingw
 
-Build Order (7 projects):
+Build Order (5 projects):
   1. __Unitest__ [STATIC_LIB] → 
   2. NKPlatform [STATIC_LIB] → 
   3. NKCore [STATIC_LIB] (depends: NKPlatform) → 
   4. NKMemory [STATIC_LIB] (depends: NKCore, NKPlatform) → 
-  5. NKContainers [STATIC_LIB] (depends: NKCore, NKMemory, NKPlatform) → 
-  6. NKMath [STATIC_LIB] (depends: NKContainers, NKCore, NKMemory, NKPlatform) → 
-  7. NKMath_Tests [TEST_SUITE] (depends: NKMath, __Unitest__, NKContainers, NKCore, NKMemory, NKPlatform)
+  5. NKMemory_Tests [TEST_SUITE] (depends: NKMemory, __Unitest__, NKCore, NKPlatform)
 
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -56,22 +60,22 @@ Build Order (7 projects):
 ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
 
 ℹ Found 11 source file(s)
-✓   [1/11] Compiled: TestLauncher.cpp
-✓   [2/11] Compiled: TestAssert.cpp
+✓   [1/11] Compiled: TestAssert.cpp
+✓   [2/11] Compiled: TestAggregator.cpp
 ✓   [3/11] Compiled: ConsoleReport.cpp
 ✓   [4/11] Compiled: TestCase.cpp
-✓   [5/11] Compiled: TestAggregator.cpp
-✓   [6/11] Compiled: Benchmark.cpp
-✓   [7/11] Compiled: Unitest.cpp
-✓   [8/11] Compiled: Profiler.cpp
-✓   [9/11] Compiled: PerformanceReporter.cpp
+✓   [5/11] Compiled: Benchmark.cpp
+✓   [6/11] Compiled: Profiler.cpp
+✓   [7/11] Compiled: PerformanceReporter.cpp
+✓   [8/11] Compiled: TestLauncher.cpp
+✓   [9/11] Compiled: Unitest.cpp
 ✓   [10/11] Compiled: TestReporter.cpp
 ✓   [11/11] Compiled: TestRunner.cpp
 ℹ Linking...
 ✓ Built: Build\Lib\Debug-Windows\__Unitest__\Unitest.lib
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 8.24s  │
+│  ✓ Build Successful                                                            Time: 11.72s  │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -90,7 +94,7 @@ Build Order (7 projects):
 ✓ Built: Build\Lib\Debug-Windows\NKPlatform.lib
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 1.32s  │
+│  ✓ Build Successful                                                             Time: 2.18s  │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -107,7 +111,7 @@ Build Order (7 projects):
 ✓ Built: Build\Lib\Debug-Windows\NKCore.lib
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 0.98s  │
+│  ✓ Build Successful                                                             Time: 1.62s  │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -115,144 +119,116 @@ Build Order (7 projects):
 ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
 
 ℹ Found 14 source file(s)
-✓   [1/14] Compiled: NkGc.cpp
-✓   [2/14] Compiled: NkProfiler.cpp
-✓   [3/14] Compiled: NkMultiLevelAllocator.cpp
-✓   [4/14] Compiled: NkMemory.cpp
-✓   [5/14] Compiled: NkGlobalOperators.cpp
+✓   [1/14] Compiled: NkGlobalOperators.cpp
+✓   [2/14] Compiled: NkFunction.cpp
+✓   [3/14] Compiled: NkContainerAllocator.cpp
+✓   [4/14] Compiled: NkHash.cpp
+✓   [5/14] Compiled: NkGc.cpp
 ✓   [6/14] Compiled: NkFunctionSIMD.cpp
-✓   [7/14] Compiled: NkHash.cpp
-✓   [8/14] Compiled: NkFunction.cpp
-✓   [9/14] Compiled: NkContainerAllocator.cpp
+✓   [7/14] Compiled: NkMemory.cpp
+✓   [8/14] Compiled: NkProfiler.cpp
+✓   [9/14] Compiled: NkMultiLevelAllocator.cpp
 ✓   [10/14] Compiled: NkPoolAllocator.cpp
-✓   [11/14] Compiled: NkTag.cpp
-✓   [12/14] Compiled: NkUtils.cpp
-✓   [13/14] Compiled: NkTracker.cpp
+✓   [11/14] Compiled: NkTracker.cpp
+✓   [12/14] Compiled: NkTag.cpp
+✓   [13/14] Compiled: NkUtils.cpp
 ✓   [14/14] Compiled: NkAllocator.cpp
 ℹ Linking...
 ✓ Built: Build\Lib\Debug-Windows\NKMemory.lib
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 1.32s  │
+│  ✓ Build Successful                                                             Time: 2.37s  │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
-║  Project: NKContainers                                                     Kind: STATIC_LIB  ║
+║  Project: NKMemory_Tests                                                   Kind: TEST_SUITE  ║
 ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
 
-ℹ Found 43 source file(s)
-✓   [1/43] Compiled: NkPair.cpp
-✓   [2/43] Compiled: NkFunctional.cpp
-✓   [3/43] Compiled: NkUnorderedSet.cpp
-✓   [4/43] Compiled: NkBasicString.cpp
-✓   [5/43] Compiled: NkUnorderedMap.cpp
-✓   [6/43] Compiled: NkPool.cpp
-✓   [7/43] Compiled: NkBase64.cpp
-✓   [8/43] Compiled: NkGraph.cpp
-✓   [9/43] Compiled: NkString.cpp
-✓   [10/43] Compiled: NkStringBuilder.cpp
-✓   [11/43] Compiled: NkUTF32.cpp
-✓   [12/43] Compiled: NkRingBuffer.cpp
-✓   [13/43] Compiled: NkUTF16.cpp
-✓   [14/43] Compiled: NkASCII.cpp
-✓   [15/43] Compiled: NkVector.cpp
-✓   [16/43] Compiled: NkEncoding.cpp
-✓   [17/43] Compiled: NkPriorityQueue.cpp
-✓   [18/43] Compiled: NkUTF8.cpp
-✓   [19/43] Compiled: NkFunction.cpp
-✓   [20/43] Compiled: NkArray.cpp
-✓   [21/43] Compiled: NkIterator.cpp
-✓   [22/43] Compiled: NkDoubleList.cpp
-✓   [23/43] Compiled: NkSet.cpp
-✓   [24/43] Compiled: NkDeque.cpp
-✓   [25/43] Compiled: NkTuple.cpp
-✓   [26/43] Compiled: NkBind.cpp
-✓   [27/43] Compiled: NkBinaryTree.cpp
-✓   [28/43] Compiled: NkInitializerList.cpp
-✓   [29/43] Compiled: NkQuadTree.cpp
-✓   [30/43] Compiled: NkMap.cpp
-✓   [31/43] Compiled: NkStringHash.cpp
-✓   [32/43] Compiled: NkFormat.cpp
-✓   [33/43] Compiled: NkTrie.cpp
-✓   [34/43] Compiled: NkHashMap.cpp
-✓   [35/43] Compiled: NkContainers.cpp
-✓   [36/43] Compiled: NkList.cpp
-✓   [37/43] Compiled: NkBTree.cpp
-✓   [38/43] Compiled: NkOptional.cpp
-✓   [39/43] Compiled: NkStringView.cpp
-✓   [40/43] Compiled: NkResult.cpp
-✓   [41/43] Compiled: NkStringUtils.cpp
-✓   [42/43] Compiled: NkVariant.cpp
-✓   [43/43] Compiled: NkSpan.cpp
-ℹ Linking...
-✓ Built: Build\Lib\Debug-Windows\NKContainers.lib
-
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 4.28s  │
-└──────────────────────────────────────────────────────────────────────────────────────────────┘
+ℹ Found 20 source file(s)
+✓   [1/20] Compiled: Entry.cpp
+✓   [2/20] Compiled: benchmark_allocators.cpp
+✓   [3/20] Compiled: test_allocator_buddy.cpp
+✓   [4/20] Compiled: benchmark_allocator_vs_stl.cpp
+✓   [5/20] Compiled: test_allocator_container.cpp
+✓   [6/20] Compiled: test_allocator_arena.cpp
+✓   [7/20] Compiled: benchmark_container_allocator.cpp
+✓   [8/20] Compiled: test_allocator_freelist.cpp
+✓   [9/20] Compiled: test_allocator_malloc.cpp
+✓   [10/20] Compiled: test_allocator_stack.cpp
+✓   [11/20] Compiled: test_allocator_pool.cpp
+✓   [12/20] Compiled: test_allocator_linear.cpp
+✓   [13/20] Compiled: test_allocator_virtual.cpp
+✓   [14/20] Compiled: test_core_utility_smoke.cpp
+✓   [15/20] Compiled: test_gc.cpp
+✓   [16/20] Compiled: test_memory_fn.cpp
 
 ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
-║  Project: NKMath                                                           Kind: STATIC_LIB  ║
-╚══════════════════════════════════════════════════════════════════════════════════════════════╝
-
-ℹ Found 12 source file(s)
-✓   [1/12] Compiled: NkAngle.cpp
-✓   [2/12] Compiled: NkFunctions.cpp
-✓   [3/12] Compiled: NkEulerAngle.cpp
-✓   [4/12] Compiled: NkColor.cpp
-✓   [5/12] Compiled: NkMat.cpp
-✓   [6/12] Compiled: NkQuat.cpp
-✓   [7/12] Compiled: NkRange.cpp
-✓   [8/12] Compiled: NkSIMD.cpp
-✓   [9/12] Compiled: NkRandom.cpp
-✓   [10/12] Compiled: NkRectangle.cpp
-✓   [11/12] Compiled: NkSegment.cpp
-✓   [12/12] Compiled: NkVec.cpp
-ℹ Linking...
-✓ Built: Build\Lib\Debug-Windows\NKMath.lib
-
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✓ Build Successful                                                             Time: 3.26s  │
-└──────────────────────────────────────────────────────────────────────────────────────────────┘
-
-╔══════════════════════════════════════════════════════════════════════════════════════════════╗
-║  Project: NKMath_Tests                                                     Kind: TEST_SUITE  ║
-╚══════════════════════════════════════════════════════════════════════════════════════════════╝
-
-ℹ Found 3 source file(s)
-✓   [1/3] Compiled: Entry.cpp
-✓   [2/3] Compiled: benchmark_smoke.cpp
-
-╔══════════════════════════════════════════════════════════════════════════════════════════════╗
-║                              Compilation Error: test_smoke.cpp                               ║
+║                           Compilation Error: test_memory_utils.cpp                           ║
 ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-║ test_smoke.cpp:24:2: error: unknown type     ║
-║ name 'NkRect'                                                                                ║
-║    24 |         NkRect r(10, 20, 100, 50);                                                   ║
-║       |         ^                                                                            ║
-║ 1 error generated.                                                                           ║
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_m ║
+║ emory_utils.cpp:10:36: error: use of undeclared identifier 'NkAlignUp'                       ║
+║    10 |         ASSERT_EQUAL(16, static_cast<int>(NkAlignUp(13u, 8u)));                      ║
+║       |                                           ^~~~~~~~~                                  ║
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_m ║
+║ emory_utils.cpp:11:35: error: use of undeclared identifier 'NkAlignDown'                     ║
+║    11 |         ASSERT_EQUAL(8, static_cast<int>(NkAlignDown(13u, 8u)));                     ║
+║       |                                          ^~~~~~~~~~~                                 ║
+║ 2 errors generated.                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
 
-test_smoke.cpp
+✗ ✗ Compilation failed: C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_memory_utils.cpp
+✓   [18/20] Compiled: test_hash_memory.cpp
+✓   [19/20] Compiled: test_memory_stress.cpp
+
+╔══════════════════════════════════════════════════════════════════════════════════════════════╗
+║                          Compilation Error: test_memory_system.cpp                           ║
+╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_m ║
+║ emory_system.cpp:4:10: warning: non-portable path to file '"NKMemory/NKMemory.h"'; specified ║
+║ path differs in case from file name on disk [-Wnonportable-include-path]                     ║
+║     4 | #include "NKMemory/NkMemory.h"                                                       ║
+║       |          ^~~~~~~~~~~~~~~~~~~~~                                                       ║
+║       |          "NKMemory/NKMemory.h"                                                       ║
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_m ║
+║ emory_system.cpp:84:18: error: use of undeclared identifier 'NkCompare'; did you mean        ║
+║ 'NkMemCompare'?                                                                              ║
+║    84 |         ASSERT_EQUAL(0, NkCompare(named.Name, "Gameplay", 8u));                      ║
+║       |                         ^~~~~~~~~                                                    ║
+║       |                         NkMemCompare                                                 ║
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Jenga\Jenga\Unitest\src/Unitest/TestMacro.h:33:5 ║
+║ 2: note: expanded from macro 'ASSERT_EQUAL'                                                  ║
+║ 33 |     nkentseu::test::TestAssert::Equal((expected), (actual), "", __FILE__, __LINE__,     ║
+║ #expected " == " #actual)                                                                    ║
+║       |                                                    ^~~~~~                            ║
+║ C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\src/NKMemory ║
+║ /NkUtils.h:65:12: note: 'NkMemCompare' declared here                                         ║
+║ 65 |                 nk_int32 NkMemCompare(const void *a, const void *b, nk_size size)       ║
+║ noexcept;                                                                                    ║
+║       |                          ^                                                           ║
+║ 1 warning and 1 error generated.                                                             ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════╝
+
+✗ ✗ Compilation failed: C:\Users\nyond\OneDrive\Desktop\PROJETS_GAP\Nkentseu\Kernel\Foundation\NKMemory\tests\test_memory_system.cpp
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│  ✗ Build Failed                                                                 Time: 1.72s  │
-│ Errors: 2  | Failed files: 1                                                                 │
+│  ✗ Build Failed                                                                Time: 10.53s  │
+│ Errors: 4  | Failed files: 2                                                                 │
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ════════════════════════════════════════════════════════════════════════════════
                                   BUILD FAILED                                  
 ════════════════════════════════════════════════════════════════════════════════
-Projects Built:  6/7
+Projects Built:  4/5
 Failed:         1
-Errors:         2
-Time:           21.12s
+Errors:         4
+Time:           28.42s
 Status:         ✗ FAILURE
 ════════════════════════════════════════════════════════════════════════════════
 
 Echecs (1) — a corriger :
-  ✗ NKMath_Tests
+  ✗ NKMemory_Tests
 ```
 
-
-
+* CONCLUSION:
+***
+   L'erreur vient de test_smoke.cpp, parceque NkRect est introuvable.
