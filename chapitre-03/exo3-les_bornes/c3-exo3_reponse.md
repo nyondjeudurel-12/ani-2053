@@ -175,7 +175,7 @@ RESULTAT:
 ```powershell
 [2026-09-27 15:56:28.883] [INF] [default] [main.cpp:39 in operator()] -> taille actuelle ->Taille : 160 x 160
 ```
-donc la plus petite taille et 160px pour 160px
+donc la plus petite taille et 160px pour 160px qui est aussi la taille minimal declaree dans nkentseu.
 
 * Conclusion
 ****
