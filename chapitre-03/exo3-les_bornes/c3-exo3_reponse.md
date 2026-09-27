@@ -108,7 +108,74 @@ Time:           4.53s
 Status:         ✓ SUCCESS
 ════════════════════════════════════════════════════════════════════════════════
 ```
-et la je constate que quand je redimenssionne la fenetre elle bloque a la taille auquel l'icone de la fenetre et les 03 bouttons donc fermer agrandir et reduire son visible suivie d'un petit ecart pour montrer la fenetre sur la hauteur . je dirais environ 120px pour 80 px.
+et la je constate que quand je redimenssionne la fenetre elle bloque a la taille auquel l'icone de la fenetre et les 03 bouttons donc fermer agrandir et reduire son visible suivie d'un petit ecart pour montrer la fenetre sur la hauteur . 
+
+
+* Pour recuperer la taille exactement de la fenetre quand sa bloque j'ajoute la fonction suivante a mon programme :
+```
+     events.AddEventCallback<NkWindowResizeEvent>(
+        [](NkWindowResizeEvent *e) {
+            logger.Info("taille actuelle ->Taille : {} x {}", e->GetWidth(), e->GetHeight());
+        }
+    );
+    
+```
+```
+#include "NKWindow/NKWindow.h"
+#include "NKWindow/NKMain.h"
+#include "NKEvent/NkWindowEvent.h"
+
+using namespace nkentseu;
+
+int nkmain(const NkEntryState &state)
+{
+    NkWindowConfig cfg;
+    cfg.title = "fenetre";
+    
+    NkWindow window(cfg);
+
+    if (!window.IsOpen())
+    {
+        logger.Error("[app] creation fenetre echouer!!");
+        return -1;
+    }
+    else
+    {
+        std::cout << "La fenetre est ouverte!!";
+    }
+
+    bool running = true;
+
+    NkEventSystem &events = NkEvents();
+
+    events.AddEventCallback<NkWindowCloseEvent>(
+        [&](NkWindowCloseEvent *)
+        {
+            running = false;
+        }
+    );
+
+      events.AddEventCallback<NkWindowResizeEvent>(
+        [](NkWindowResizeEvent *e) {
+            logger.Info("taille actuelle ->Taille : {} x {}", e->GetWidth(), e->GetHeight());
+        }
+    );
+
+    while (running && window.IsOpen())
+    {
+        events.PollEvents();
+    }
+
+    window.Close();
+
+    return 0;
+}
+```
+RESULTAT:
+```powershell
+[2026-09-27 15:56:28.883] [INF] [default] [main.cpp:39 in operator()] -> taille actuelle ->Taille : 160 x 160
+```
+donc la plus petite taille et 160px pour 160px
 
 * Conclusion
 ****

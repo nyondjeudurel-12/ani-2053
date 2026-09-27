@@ -1,6 +1,6 @@
-# EXERCICE 5:(L'ETAT DU PROGRAMME DANS LE TITRE)
+# EXERCICE 5:(Le Titre qui informe)
 
-* L'objectif ici est d'afficher dans le titre de la fenetre l'etat de mon programme. Le titre doit contenir le nom du document, un asterisque  lorsque le document est modifie, ainsi que la taille actuelle de la fenetre.
+* L'objectif ici est d'afficher dans le titre de la fenetre l'etat de mon programme. Le titre doit contenir le nom du document, un asterisque  lorsque le document est modifie, ainsi que la taille actuelle de la fenetre..
 
 * le programme que j'ai utiliser est le suivant :
 ```

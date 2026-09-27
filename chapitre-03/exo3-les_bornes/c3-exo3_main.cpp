@@ -32,6 +32,12 @@ int nkmain(const NkEntryState &state)
         }
     );
 
+     events.AddEventCallback<NkWindowResizeEvent>(
+        [](NkWindowResizeEvent *e) {
+            logger.Info("taille actuelle ->Taille : {} x {}", e->GetWidth(), e->GetHeight());
+        }
+    );
+
     while (running && window.IsOpen())
     {
         events.PollEvents();
