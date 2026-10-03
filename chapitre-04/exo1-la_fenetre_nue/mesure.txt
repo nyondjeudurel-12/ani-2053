@@ -1,2 +1,3 @@
+lignes : 20, utiles : 15, fond : 67 168 240
 
-* lignes : 20, utiles : 18, fond : 67, 168, 240.
+
