@@ -1,0 +1,8 @@
+* Ce que la coquille fait a ma place :
+La coquille crée la fenêtre et la cible de rendu pour moi, elle gère aussi la boucle principale et les événements. Elle s'occupe donc de tout ce qui est nécessaire pour que la fenêtre puisse fonctionner sans que j'ai besoin d'écrire toute la boucle moi-même.
+
+* Ce qui se passe si je configure dans OnInit :
+Si je configure le titre, la taille ou la couleur dans OnInit, la fenêtre est déjà créée. Les changements de configuration ne sont donc pas pris en compte. Par exemple, changer la taille dans OnInit ne permet pas de modifier la taille de la fenêtre créée au démarrage.
+
+* Ce qui se passe sans NKMain.h :
+Sans NKMain.h, le programme peut être compilé mais l'édition de liens échoue car le point d'entrée portable nkmain n'est pas correctement relié au système de démarrage. On obtient donc une erreur de linkage avec un symbole manquant.
