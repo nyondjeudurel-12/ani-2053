@@ -2,7 +2,10 @@
 #include "NKWindow/NKMain.h"
 
 using namespace nkentseu;
-class Fenetre : public renderer::NkCanvasApp
+using renderer::NkCanvasApp;
+using renderer::NkColor2D;
+
+class Fenetre : public NkCanvasApp
 {
 public:
     Fenetre()
@@ -10,11 +13,11 @@ public:
         Config().title = "Ma fenetre";
         Config().width = 800;
         Config().height = 600;
-        Config().clearColor = renderer::NkColor2D{67, 168, 240, 255};
+        Config().clearColor = NkColor2D{67, 168, 240, 255};
     }
 };
 
 int nkmain(const NkEntryState &state)
 {
-    return renderer::NkCanvasApp::Run<Fenetre>(state);
+    return NkCanvasApp::Run<Fenetre>(state);
 }
