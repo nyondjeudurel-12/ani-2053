@@ -1,0 +1,6 @@
+Ce que la taille du fichier ne dit :
+La taille d'un fichier image sur le disque ne représente pas forcément la place qu'il occupe en mémoire après son chargement. Une image PNG ou JPEG peut être compressée sur le disque. Quand le programme la charge, les pixels sont décodés et occupent de la mémoire en fonction de leur largeur, de leur hauteur et du nombre d'octets par pixel.
+L'ecart entre calcul et mesure :
+La taille calculée avec la formule largeur × hauteur × octets par pixel correspond à la taille théorique des pixels décodés. La mémoire observée dans le Gestionnaire des tâches peut être différente, car le programme utilise aussi de la mémoire pour d'autres éléments. Le système d'exploitation gère également les allocations de mémoire. Il faut donc distinguer le calcul théorique de la mémoire réellement observée.
+Avant d'ouvrir cinquante photos :
+Avant de charger cinquante photos, je vérifierais leurs dimensions et leur taille théorique en mémoire. Je ferais attention à la mémoire disponible et j'éviterais de garder toutes les images en mémoire si elles ne sont pas nécessaires en même temps. Je pourrais aussi réduire les dimensions des images ou libérer celles qui ne sont plus utilisées afin de limiter la consommation de mémoire.

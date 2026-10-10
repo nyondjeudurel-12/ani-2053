@@ -39,10 +39,8 @@ int nkmain(const NkEntryState& state)
         logger.Error("Failed to initialize render window");
         return 2;
     }
-
     bool running = true;
     auto& eventSystem = NkEvents();
-
     NkClock clock;
 
     while(running && window.IsOpen())
@@ -74,10 +72,8 @@ int nkmain(const NkEntryState& state)
             {x, y, 50, 50},
             NkColor2D{255, 0, 0, 255}
         );
-
         // Afficher
         renderwindow.Display();
     }
-
     return 0;
 }
