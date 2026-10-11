@@ -1,0 +1,9 @@
+Taille de police : 18
+Nombre de glyphes : 191
+Taille de la texture : 512 x 512
+Pourcentage perdu estimé : 93 %
+
+Taille de police : 48
+Nombre de glyphes : 191
+Taille de la texture : 1024 x 1024
+Pourcentage perdu estimé : 91 %

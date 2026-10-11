@@ -1,0 +1,8 @@
+Pourquoi une seule texture :
+Une seule texture permet de regrouper tous les glyphes de la police au même endroit. Le programme peut ainsi retrouver chaque caractère grâce à ses coordonnées dans l'atlas, sans devoir charger une texture différente pour chaque caractère. Cela facilite le rendu du texte et limite les changements de texture.
+
+Ce que change la taille :
+Dans mon test, le nombre de glyphes reste le même, soit 191, pour les tailles 18 et 48. Par contre, la texture passe de 512 x 512 à 1024 x 1024. Cela montre qu'une police plus grande demande davantage d'espace pour stocker les glyphes dans l'atlas.
+
+A quoi sert la marge entre glyphes :
+La marge sert à séparer les glyphes dans la texture. Elle évite que le rendu d'un caractère récupère des pixels d'un caractère voisin lors de l'échantillonnage. Sans cette marge, des défauts visuels peuvent apparaître sur les bords des caractères.
