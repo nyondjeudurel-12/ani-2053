@@ -1,0 +1,8 @@
+Ce que le refus m'apprend :
+Quand le lecteur refuse d'ouvrir un fichier, cela signifie qu'il n'arrive pas à le lire correctement. Le fichier peut être incomplet, avoir un format non reconnu ou utiliser un codec que le lecteur ne prend pas en charge. Le refus m'indique donc que la lecture n'a pas pu commencer, mais il ne donne pas directement la cause exacte du problème.
+
+Ce qu'il ne m'apprend pas :
+Le refus ne me permet pas de savoir avec certitude si le fichier est endommagé, si son extension ne correspond pas à son contenu ou si le codec vidéo n'est pas pris en charge. Il ne me donne pas non plus le nombre d'images que le lecteur aurait pu lire. Pour comprendre le problème, je dois utiliser un autre outil de diagnostic.
+
+Comment j'ai trouve la cause :
+J'ai utilisé `NkMediaProbe::ProbeFile` pour examiner les trois fichiers et identifier leur conteneur ainsi que les codecs de leurs pistes. J'ai ensuite comparé les informations obtenues avec le résultat de `NkVideoReader::Open` et le nombre d'images lues. Cela m'a permis de mieux comprendre pourquoi un fichier pouvait être refusé : par exemple, un fichier tronqué peut être incomplet, un fichier texte renommé en `.mp4` n'est pas une vraie vidéo, et une vidéo valide peut utiliser un codec que le lecteur ne sait pas encore décoder.
