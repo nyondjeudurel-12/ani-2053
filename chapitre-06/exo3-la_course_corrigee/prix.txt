@@ -1,0 +1,20 @@
+Sans protection : Total obtenu au dernier essai : 8000000 ; médiane : 2.1743 ms
+
+Mutex : Total obtenu au dernier essai : 8000000 ; médiane : 221.206 ms
+
+Atomique : Total obtenu au dernier essai : 8000000 ; médiane : 153.641 ms
+
+Local : Total obtenu au dernier essai : 8000000 ; médiane : 2.57 ms
+
+La moins chère : Sans protection (médiane : 2.1743 ms)
+
+Pourquoi :
+Sans protection, les fils modifient le même compteur sans synchronisation. Cela provoque une course de données et un comportement indéfini. Même si le total obtenu est correct lors de nos essais, cela ne garantit pas que le programme soit correct.
+
+Avec un mutex, chaque incrément nécessite de verrouiller puis de déverrouiller le mutex. Ces opérations répétées entraînent un coût important de synchronisation.
+
+Avec un compteur atomique, les incréments sont effectués de manière atomique, ce qui protège le compteur contre les accès concurrents non synchronisés. Cependant, les fils se disputent toujours le même emplacement mémoire, ce qui peut ralentir les opérations.
+
+Avec des compteurs locaux, chaque fil incrémente sa propre variable. Les résultats sont additionnés après la fin des fils, ce qui réduit la synchronisation pendant les incréments.
+
+Selon les médianes mesurées, la version sans protection est la plus rapide, mais elle n'est pas correcte à cause de la course de données. Parmi les trois versions qui protègent correctement les données, la version avec compteurs locaux est la plus rapide dans ces essais.
