@@ -1,0 +1,15 @@
+Constat :
+
+Dans la version initiale, le programme se bloque. Le fil `a` verrouille `m1` et attend `m2`, tandis que le fil `b` verrouille `m2` et attend `m1`. Chaque fil attend donc un verrou détenu par l'autre. Aucun ne peut continuer : c'est un interblocage (*deadlock*).
+
+Pause :
+
+Dans la version bloquante commentée, le fil `a` attend le verrou `m2` à la ligne 22, après avoir verrouillé `m1`. Le fil `b` attend le verrou `m1` à la ligne 30, après avoir verrouillé `m2`. Ces lignes correspondent aux tentatives d'acquisition des seconds verrous. Il faut confirmer ces positions dans le débogueur si cette observation est exigée.
+
+Correction :
+
+J'ai modifié le fil `b` pour qu'il verrouille `m1` avant `m2`, comme le fil `a`. J'ai conservé les deux mutex, les deux pauses de 100 ms et les deux fils d'exécution. Après recompilation et exécution, les deux fils terminent normalement et le message « Les deux fils ont termine. » s'affiche.
+
+Règle :
+
+Pour éviter ce type d'interblocage, les différents fils doivent acquérir les mutex partagés dans un ordre global identique. Il faut aussi veiller à libérer les verrous automatiquement ou correctement, par exemple avec `NkScopedLock`.
