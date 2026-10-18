@@ -1,0 +1,26 @@
+Dix totaux :
+2693795
+1882905
+1913695
+1371104
+1458782
+1595033
+1225358
+1472264
+1580226
+1632908
+
+Un seul fil :
+Total obtenu : 1000000
+Total attendu : 1000000
+
+Release :
+Exécution 1 : 8000000
+Exécution 2 : 8000000
+Exécution 3 : 8000000
+Total attendu : 8000000
+
+Pourquoi :
+L'instruction compteur += 1 comprend trois opérations : la lecture de la valeur du compteur, l'addition de 1 et l'écriture du résultat. Si deux fils lisent la même valeur avant que l'un d'eux écrive son résultat, ils peuvent calculer la même nouvelle valeur. L'un des incréments est alors perdu. Comme les fils modifient le même compteur sans protection, il y a une course de données et le comportement du programme est indéfini.
+
+En Release, le compilateur applique des optimisations différentes de celles utilisées en Debug. Dans nos trois exécutions, le total obtenu est égal au total attendu de 8000000. Cependant, cela ne signifie pas que la course de données a disparu. Le résultat dépend du comportement du programme, de l'ordonnancement des fils et des optimisations du compilateur. Un résultat correct lors de quelques exécutions ne garantit donc pas que le programme soit correct.
