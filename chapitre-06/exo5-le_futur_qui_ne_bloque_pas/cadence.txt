@@ -1,0 +1,22 @@
+Image : D:\image.jpg
+
+Get :
+
+* Durée de chargement : 1774,67 ms
+* Plus longue mise à jour : 1774,91 ms
+* Nombre de trames pendant le chargement : 0
+* Image valide : oui
+
+IsReady :
+
+* Durée de chargement : 1752,21 ms
+* Plus longue mise à jour : 0,382 ms
+* Nombre de trames pendant le chargement : 104
+* Image valide : oui
+
+Ce qu'on voit :
+Avec Get(), le programme attend la fin du chargement de l'image. Cette attente bloque le fil principal pendant environ 1,77 seconde. Le déplacement du carré est donc interrompu pendant ce temps.
+
+Avec IsReady(), le programme vérifie si l'image est prête sans attendre. Pendant le chargement, il continue à effectuer des mises à jour et le carré continue de se déplacer. J'ai compté 104 mises à jour pendant cette période.
+
+Les deux méthodes chargent correctement l'image, et leurs durées de chargement sont proches. La différence principale est que Get() bloque le fil principal, tandis qu'IsReady() permet au programme de rester réactif.
