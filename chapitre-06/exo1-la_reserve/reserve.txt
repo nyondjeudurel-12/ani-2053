@@ -1,0 +1,15 @@
+Tâche : 200 tâches indépendantes par essai.
+
+Réserve : 9.720 ms ; 9.712 ms ; 9.335 ms ; Moyenne : 9.589 ms.
+
+Fils : 53.926 ms ; 42.969 ms ; 38.512 ms ; Moyenne : 45.136 ms.
+
+Ouvriers : 4
+
+Tâche longue : chaque tâche effectue 10000 répétitions, contre 100 pour une tâche courte.
+
+Réserve longue : 936.345 ms ; 933.840 ms ; 974.898 ms ; Moyenne : 948.361 ms.
+
+Fils longs : 604.228 ms ; 636.195 ms ; 694.588 ms ; Moyenne : 645.004 ms.
+
+Pourquoi : la réserve réutilise ses ouvriers pour traiter plusieurs tâches, ce qui réduit le coût de création des fils et la synchronisation. Elle est donc plus rapide dans notre expérience avec des tâches courtes. Pour les tâches longues, les fils individuels ont été plus rapides dans cette expérience, probablement grâce au parallélisme obtenu avec les 200 fils. Cependant, cette méthode consomme davantage de ressources et ses performances dépendent du processeur, du système d'exploitation et de la charge de la machine.
