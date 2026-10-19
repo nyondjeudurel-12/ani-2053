@@ -1,0 +1,23 @@
+Types complets : 18 octets (144 bits)
+Quantifié : 8 octets (60 bits)
+
+Écart maximal :
+
+Types complets :
+Vivant : 0
+Numéro : 0
+Position X : 0.00000
+Position Y : 0.00000
+Angle : 0.00000
+Santé : 0
+
+Données quantifiées :
+Vivant : 0
+Numéro : 0
+Position X : 0.00402
+Position Y : 0.00200
+Angle : 0.20000
+Santé : 0
+
+Ce que le joueur verrait :
+Les différences de position et d'angle sont très faibles pour les valeurs testées. Elles devraient être difficilement perceptibles en jeu. La quantification réduit la taille du message au prix d'une légère perte de précision.
