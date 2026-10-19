@@ -1,0 +1,20 @@
+Liste :
+* Serveur de decouverte
+
+Apparitions :
+
+* 3 apparitions affichees pendant une recherche de 6 secondes.
+* Les trois apparitions portent le meme nom : Serveur de decouverte.
+
+Pourquoi :
+
+* Le serveur diffuse regulierement des annonces avec NkDiscovery::Broadcast.
+* Le client ecoute les annonces pendant 6000 millisecondes avec NkDiscovery::Listen.
+* Un meme serveur peut apparaitre plusieurs fois si plusieurs annonces sont recues.
+* Il faut verifier dans NkLobby.cpp si Listen elimine les doublons ou conserve chaque annonce recue.
+
+Machines :
+
+* Test realise sur une seule machine Windows.
+* Le serveur et le client ont ete lances successivement dans le meme environnement.
+* Le test confirme la diffusion et la reception d'annonces, mais ne valide pas encore la decouverte entre deux machines du reseau local.
