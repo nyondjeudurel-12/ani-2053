@@ -1,0 +1,58 @@
+- Compilation du programme
+
+La commande `jenga build` s'est exécutée avec succès.
+
+* Projet : `Exercice-Sprint`
+* Configuration : `Debug`
+* Plateforme : `Windows x86_64`
+* Compilateur : `clang-mingw`
+* Résultat : compilation réussie.
+
+- Lancement du programme
+
+La commande `jenga run serveur` ne fonctionne pas, car Jenga interprète `serveur` comme un nom de projet.
+
+Le programme doit être lancé directement avec l'argument correspondant au mode souhaité.
+
+Serveur :
+`Exercice-Sprint.exe serveur`
+
+Client :
+`Exercice-Sprint.exe client`
+
+Les deux instances doivent être lancées dans deux terminaux distincts.
+
+- Vérification de l'adresse réseau
+
+Le fichier `NkSocket.h` contient la classe `NkAddress`.
+
+La documentation confirme l'existence du constructeur :
+
+`NkAddress(const char* host, uint16 port)`
+
+Ce constructeur permet de créer une adresse à partir d'une adresse IP ou d'un nom d'hôte et d'un port.
+
+L'adresse utilisée dans le programme est :
+
+`127.0.0.1:7777`
+
+Cette adresse correspond à la machine locale sur le port 7777.
+
+- Résultats observés précédemment
+
+Lors d'un essai précédent, le client a affiché les messages suivants :
+
+* Connexion au serveur en cours.
+* Connexion établie avec le serveur.
+* Pair connecté.
+* Message envoyé : `Bonjour serveur !`
+
+Cependant, le serveur n'a pas affiché le message reçu. Les journaux réseau ont également affiché une adresse inhabituelle : `127.127.127.127:127`.
+
+La transmission effective du message n'est donc pas confirmée.
+
+- Conclusion
+
+La compilation du programme est réussie. La documentation de `NkAddress` confirme que le constructeur utilisé est prévu pour recevoir une adresse IP et un port.
+
+Toutefois, les essais précédents ne permettent pas encore de confirmer la bonne transmission du message entre le client et le serveur. Il reste à vérifier l'implémentation de la construction et de la conversion des adresses réseau, ainsi que le fonctionnement du gestionnaire de connexions.
