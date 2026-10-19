@@ -1,0 +1,6 @@
+Moyenne : 325.000 ms
+Minimum : 264.644 ms
+Maximum : 558.578 ms
+Lissée : 278.500 ms
+Moteur : 250.000 ms
+Écart : 28.500 ms. La différence entre le RTT mesuré par le programme et celui estimé par le moteur peut s'expliquer par leurs méthodes de calcul et les délais de traitement. La communication utilise 127.0.0.1, qui correspond à la boucle locale et non à un réseau physique externe. La mesure est incomplète car la réponse au message 100 n'a pas été reçue.
