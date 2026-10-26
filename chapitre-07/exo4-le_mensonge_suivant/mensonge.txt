@@ -1,0 +1,15 @@
+Le commentaire :
+
+Dans Canvas/include/NKCanvas/App/NkCanvasSplash.h, vers la ligne 56, le commentaire présente le logo comme un fichier de dimensions 1920x562. À la ligne 225, le même fichier utilise le rapport 3.416f, calculé à partir de ces dimensions approximatives.
+
+Le code :
+
+Dans Canvas/include/NKCanvas/App/NkRihenLogo.h, vers la ligne 41, le SVG intégré déclare les dimensions suivantes : width="1920" et height="562.95", avec un viewBox de 0 0 1920 562.95. La hauteur réelle déclarée est donc de 562,95 et non de 562.
+
+La preuve :
+
+Les deux fichiers peuvent être vérifiés directement dans le kit Canvas. Le commentaire et le calcul de NkCanvasSplash.h utilisent un rapport fondé sur une hauteur de 562 pixels, alors que le SVG intégré dans NkRihenLogo.h déclare une hauteur de 562,95 pixels. Le rapport exact est donc légèrement différent de celui utilisé par le code d'affichage. Il s'agit d'une incohérence mesurable entre les dimensions annoncées et celles du SVG.
+
+Ce qu'il dit de son auteur :
+
+Cette différence ne permet pas d'affirmer que l'auteur a volontairement écrit une information fausse. Il a probablement arrondi les dimensions du logo pour simplifier le calcul, ou conservé une approximation provenant d'une version antérieure. Cela montre néanmoins qu'un commentaire technique peut devenir imprécis et qu'il est utile de vérifier les valeurs documentées directement dans la ressource utilisée.
