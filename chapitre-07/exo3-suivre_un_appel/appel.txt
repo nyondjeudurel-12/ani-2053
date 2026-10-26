@@ -1,0 +1,26 @@
+Les sauts :
+
+1. Fichier : `Canvas/include/NKCanvas/Renderer/Targets/NkRenderTarget.h` — Fonction : `NkRenderTarget::Clear(const NkColor2D &color)`. Cette méthode est virtuelle pure (`= 0`). Le commentaire indique qu'elle vide la cible de rendu avec la couleur indiquée. La classe de base définit donc le contrat, mais ne fournit pas le corps de cette méthode.
+
+2. Fichier : `Canvas/include/NKCanvas/Renderer/Targets/NkRenderWindow.h` — Fonction : `NkRenderWindow::Clear(const NkColor2D &color)`. La méthode redéfinit celle de `NkRenderTarget` avec `override`. Le commentaire d'utilisation montre un appel à `target.Clear({30, 30, 30, 255})`. Cependant, le corps de `NkRenderWindow::Clear` n'est pas présent dans cet en-tête.
+
+3. Fichier : `Canvas/include/NKCanvas/Renderer/Core/NkRenderer2D.h` — Fonction : `NkRenderer2D::Clear(const NkColor2D &c)`. Cette méthode vérifie que `mBackend` existe, puis appelle `mBackend->Clear(c)`. Elle transmet donc la couleur au backend lorsqu'il est disponible. Nous avons observé cette méthode, mais nous n'avons pas confirmé que `NkRenderWindow::Clear` l'appelle directement.
+
+4. Fichier : `Canvas/include/NKCanvas/Renderer/Core/NkIRenderer2D.h` — Fonction : `NkIRenderer2D::Clear(const NkColor2D &color)`. Cette méthode est également virtuelle pure (`= 0`). Elle définit l'opération attendue des backends de rendu.
+
+Arrêt :
+
+`Canvas/include/NKCanvas/Renderer/Core/NkIRenderer2D.h`, sur la déclaration virtuelle pure `NkIRenderer2D::Clear()`.
+
+Pourquoi là :
+
+Le corps de `NkRenderWindow::Clear()` n'a pas été trouvé dans les fichiers du kit examinés. Le kit contient la bibliothèque compilée `Canvas/lib/Debug-Windows/NKCanvas.lib`, mais nous n'avons pas vérifié qu'elle contient précisément cette implémentation. De plus, `NkIRenderer2D::Clear()` est une déclaration virtuelle pure : son corps n'est pas fourni par cette interface. Le suivi s'arrête donc à cette limite du code consultable, sans prétendre avoir observé les instructions exécutées par le backend.
+
+Ce que je sais maintenant :
+
+* Fait observé : `NkCanvasApp::OnRender(NkRenderWindow &target)` ne fait rien dans son implémentation par défaut ; le paramètre est marqué comme inutilisé avec `(void)target`.
+* Fait observé : `NkRenderTarget::Clear()` est une méthode virtuelle pure dont le commentaire précise qu'elle vide la cible de rendu avec la couleur indiquée.
+* Fait observé : `NkRenderWindow::Clear()` redéfinit cette méthode, mais son corps n'apparaît pas dans l'en-tête consulté.
+* Fait observé : `NkRenderer2D::Clear()` transmet la couleur à `mBackend->Clear(c)` uniquement si `mBackend` n'est pas nul.
+* Fait observé : `NkIRenderer2D::Clear()` est virtuelle pure et les en-têtes des backends déclarent leurs propres redéfinitions.
+* Déduction : l'opération de nettoyage est conçue pour être prise en charge par un backend graphique. Le chemin exact entre `NkRenderWindow::Clear()` et ce backend reste à confirmer, car son implémentation n'est pas visible dans les fichiers examinés.
