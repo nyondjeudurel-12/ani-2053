@@ -1,0 +1,21 @@
+Le long :
+
+* Fichier : `NKGui\Doc\NkGuiMonteur.h`
+* Nombre de lignes : 5 773
+* Pourquoi il est lisible : ce fichier contient de nombreux commentaires qui expliquent son rôle, ses responsabilités et les raisons de certains choix techniques. Il présente aussi ce qu'il prend en charge et ce qu'il ne prend pas en charge. Ces explications permettent de comprendre progressivement son fonctionnement malgré sa grande taille.
+
+Le difficile :
+
+* Fichier : `NKCanvas\Renderer\Batch\NkBatchRenderer2D.h`
+* Nombre de lignes : 219
+* Pourquoi il est difficile : malgré sa taille réduite, ce fichier conserve plusieurs états liés au rendu 2D : les sommets, les indices, les groupes de dessin, la vue actuelle, la vue par défaut, la zone d'affichage, la politique de redimensionnement, le mode de fusion, les statistiques et la pile de découpage. Plusieurs méthodes permettent de modifier ces états.
+
+Ce qu'ils gardent :
+
+* `NkGuiMonteur.h` : il contient la logique qui transforme un document d'interface `.nkgui` lu en widgets NKGui. Il prend en charge la création des éléments visuels et leur disposition. Il s'appuie sur plusieurs autres composants, notamment `NkGuiArchive.h`, `NkGuiWidgets.h` et les fichiers de gestion des dispositions, des langues, des images et des événements.
+* `NkBatchRenderer2D.h` : il conserve les données nécessaires au rendu 2D, notamment les sommets, les indices, les groupes de dessin, les informations de vue et de découpage, ainsi que les statistiques du rendu. Les méthodes de la classe et les implémentations des différents backends graphiques participent aux opérations de rendu et à la gestion de ces données.
+
+L'écart :
+
+* Le fichier long est volumineux, mais ses commentaires expliquent son rôle, ses limites et ses choix techniques. Sa structure documentaire aide à comprendre les différentes parties.
+* Le fichier difficile est beaucoup plus court, mais plusieurs états doivent rester cohérents entre eux. Une modification de la vue, du découpage ou du mode de fusion peut influencer le déroulement du rendu et le moment où les données accumulées sont envoyées au backend graphique. Sa difficulté vient donc surtout des relations entre les états et des différentes opérations qui les modifient, et non du nombre de lignes.
