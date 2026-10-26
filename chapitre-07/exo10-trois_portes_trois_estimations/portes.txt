@@ -1,0 +1,20 @@
+Module :
+NKWindow
+
+Après le projet :
+Source consultée : Canvas/Canvas.jenga, ligne de dépendances de NKWindow.
+
+Première estimation : NKWindow semble être le module qui permet de créer et de gérer des fenêtres. NKEvent pourrait servir à recevoir les événements liés à la fenêtre, comme les clics ou les demandes de fermeture. NKMath pourrait servir à gérer les dimensions et les positions. NKTime pourrait intervenir dans la gestion du temps ou dans la mise à jour de la fenêtre. Les autres dépendances pourraient fournir des services internes nécessaires au fonctionnement du module.
+
+Après un programme :
+Source consultée : Exercice-Sprint/src/main.cpp.
+
+Deuxième estimation : le programme utilise NkCanvasApp et inclut NKWindow/NKMain.h. Il configure le titre et les dimensions de la fenêtre avec Config(), effectue le rendu dans OnRender() et demande l'arrêt avec Quit(). NKWindow semble donc participer au lancement et au fonctionnement de la fenêtre. Cependant, le programme ne permet pas d'affirmer que toutes ces fonctions appartiennent directement à NKWindow, car une partie peut être fournie par NkCanvasApp.
+
+Après les en-têtes :
+Sources consultées : Canvas/include/NKWindow/Core/NkWindow.h, NkWindowConfig.h et NkEvent.h.
+
+Les en-têtes montrent que NKWindow fournit une classe concrète NkWindow. Elle permet de créer et fermer une fenêtre, de vérifier son état, de lire ou modifier son titre, sa taille et sa position, de gérer sa visibilité, sa minimisation, sa maximisation et le plein écran. Elle propose également des fonctions pour les moniteurs, le DPI, la souris, le presse-papiers, l'opacité, les décorations et certaines options de clavier logiciel. NkWindowConfig regroupe les paramètres de création, comme le titre, les dimensions, la position, la visibilité et le redimensionnement. L'en-tête NkEvent.h rassemble différents types d'événements, notamment ceux de la fenêtre, du clavier, de la souris, du tactile et de la manette. Enfin, les en-têtes montrent que NKWindow prévoit plusieurs plateformes, mais que toutes les fonctionnalités ne sont pas nécessairement prises en charge partout.
+
+L'écart :
+La première porte m'a donné une idée générale du rôle de NKWindow grâce aux noms des dépendances, mais elle ne permettait pas de connaître précisément ses fonctions. La deuxième porte a montré un exemple d'application qui configure une fenêtre et utilise une boucle de rendu, sans révéler toute l'interface du module. La troisième porte a confirmé le rôle de gestion des fenêtres et a révélé de nombreuses fonctions concrètes, les options de configuration, la gestion de la souris et du presse-papiers, ainsi que la prise en charge de plusieurs plateformes. Elle a aussi précisé une limite importante : une fonction déclarée dans l'interface ne garantit pas un comportement identique sur chaque plateforme.
