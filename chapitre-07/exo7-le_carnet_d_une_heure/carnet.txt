@@ -1,0 +1,38 @@
+Question :
+
+Comment la classe NkCanvasApp organise-t-elle le cycle de vie d'une application, de son lancement jusqu'à son arrêt ?
+
+Date : 26/10/2026
+Début : 15:20
+Fin : 16:17
+
+Les endroits :
+
+* include/NKCanvas/App/NkCanvasApp.h — classe NkCanvasApp : méthode Run<T>(), qui délègue l'exécution à Execute(state).
+* include/NKCanvas/App/NkCanvasApp.h — classe NkCanvasApp : méthodes Execute, OnInit, OnUpdate, OnRender et OnShutdown, déclarées pour structurer le cycle de vie de l'application.
+* include/NKCanvas/App/NkCanvasApp.h — structure NkCanvasAppConfig : paramètres de la fenêtre, du rendu et de la cadence des images.
+* include/NKCanvas/App/NkCanvasApp.h — classe NkCanvasApp : méthodes PumpEvents, DispatchTyped, HandleLifecycle et CadencerTrame, déclarées pour gérer les événements, le cycle de vie et la cadence des images.
+
+Les surprises :
+
+* La méthode Run<T>() appelle Execute(state) pour déléguer le démarrage et l'exécution de l'application au framework.
+* D'après les commentaires de NkCanvasApp.h, la configuration est lue avant la création de la fenêtre ; la modifier après cette étape ne change donc pas la configuration initiale.
+* D'après NkCanvasApp.h, la limite d'images par seconde vaut 60 par défaut et la valeur 0 signifie qu'il n'y a pas de limite.
+* Le fichier d'en-tête indique qu'avec NkCanvasApp, l'application ne doit pas appeler elle-même PollEvent() pour vider la file d'événements.
+
+Les questions ouvertes :
+
+**Les questions ouvertes :**
+
+* 26/10/2026 — Ordre du cycle de vie : la méthode `Run<T>()` appelle `Execute(state)`. Les méthodes `OnInit()`, `OnUpdate()`, `OnRender()` et `OnShutdown()` représentent les principales étapes du cycle de vie. L'ordre probable est l'initialisation, puis les mises à jour et le rendu répétés, avant l'arrêt. L'ordre exact et le comportement en cas d'échec restent à vérifier dans `NkCanvasApp.cpp`.
+
+* 26/10/2026 — Échec de création : si la fenêtre ou la cible de rendu ne peut pas être créée, l'application ne devrait pas poursuivre normalement son rendu. Il reste à vérifier comment `Execute()` signale cet échec et si `OnShutdown()` est tout de même appelé.
+
+* 26/10/2026 — Pause et reprise : `NkCanvasApp` possède les méthodes `HandleLifecycle()`, `OnPause()` et `OnResume()`. Elles indiquent que le framework prévoit de gérer les changements d'état de l'application. Les conditions précises qui déclenchent la pause et la reprise restent à vérifier dans l'implémentation.
+
+* 26/10/2026 — Cadence des images : la configuration prévoit une limite de 60 images par seconde par défaut. La valeur `0` désactive cette limite. Le paramètre `maxDeltaTime` vaut `0.1f` par défaut. Il reste à vérifier comment `CadencerTrame()` applique ces paramètres pendant l'exécution.
+
+
+Les mensonges :
+
+* aucun mensonge confirmé à ce stade : le fichier NkCanvasApp.h seul ne permet pas de confirmer qu'un commentaire ou un nom est contredit par le code d'implémentation.
