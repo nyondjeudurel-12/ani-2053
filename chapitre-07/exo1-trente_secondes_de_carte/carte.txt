@@ -1,0 +1,15 @@
+Module : NKLogger
+
+D'après le projet :
+
+* Le module dépend de NKContainers et NKCore pour les structures et les fonctionnalités de base.
+* Il utilise NKMemory pour la gestion de la mémoire.
+* Il dépend de NKPlatform pour les fonctionnalités liées à la plateforme.
+* Il utilise NKThreading, ce qui suggère qu'il peut gérer des opérations concurrentes.
+* Ses dépendances directes ne mentionnent ni les fenêtres, ni les graphismes, ni l'audio.
+
+Après l'en-tête :
+NKLogger est un système de journalisation qui permet d'envoyer des messages vers plusieurs destinations, appelées sinks. Il propose différents niveaux de messages, comme TRACE, DEBUG, INFO, WARN et ERROR, ainsi que plusieurs méthodes de formatage. Il permet aussi d'ajouter des informations sur le fichier, la ligne et la fonction à l'origine du message. Il synchronise les opérations pour permettre une utilisation concurrente.
+
+Mes erreurs :
+Je ne pouvais pas connaître la fonction exacte du module uniquement à partir de ses dépendances. J'aurais pu croire qu'il ne gérait que des messages simples, alors qu'il propose plusieurs formats, niveaux et destinations. J'ai aussi constaté que l'absence d'une dépendance directe vers NKNetwork ou NKFileSystem ne signifie pas que les messages ne peuvent pas être envoyés vers le réseau ou des fichiers : le système utilise des sinks pour gérer les destinations. La carte des dépendances donne donc des indices, mais ne décrit pas toutes les fonctionnalités.
