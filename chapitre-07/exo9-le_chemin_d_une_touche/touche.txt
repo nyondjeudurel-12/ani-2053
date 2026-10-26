@@ -1,0 +1,21 @@
+Les couches :
+
+1. Système Windows — `WM_KEYDOWN` : c'est le message qui signale l'appui sur une touche. Dans `Canvas/include/NKEvent/NkKeycodeMap.h`, un exemple montre comment récupérer ce message, convertir le code de touche et créer un événement. Cependant, cet exemple est dans un commentaire : son exécution réelle n'est pas confirmée.
+
+2. Conversion du code clavier — `Canvas/include/NKEvent/NkKeycodeMap.h` : l'exemple commenté utilise `NkKeycodeMap::NkKeyFromWin32VK` pour convertir le code de touche Windows. Cette étape est décrite, mais elle n'est pas confirmée par cet exemple comme étant exécutée réellement.
+
+3. Événement clavier — `Canvas/include/NKEvent/NkKeyboardEvent.h` : la classe `NkKeyPressEvent` est définie dans le code. Elle représente un événement de touche pressée et utilise `NK_EVENT_TYPE_FLAGS(NK_KEY_PRESSED)`. La définition de cette classe est confirmée, mais son lien direct avec le message Windows n'est pas établi par les éléments examinés.
+
+4. Système d'événements — `Canvas/include/NKEvent/NkEventSystem.h` : `NkGetEventPriority` reconnaît `NK_KEY_PRESSED` comme un événement de priorité élevée. Les fonctions `PollEvents`, `DispatchToCallbacks` et `DeliverOnPumpThread` sont également déclarées dans ce fichier. Leur présence est confirmée, mais le trajet précis de la touche entre Windows et ces fonctions n'est pas établi.
+
+5. Coquille NKCanvas — `Canvas/include/NKCanvas/App/NkCanvasApp.h` : `NkCanvasApp` possède une méthode privée `DispatchTyped(const NkEvent &event)`. Le commentaire du fichier explique que les événements typés doivent être aiguillés par cette méthode. Nous n'avons toutefois pas retrouvé son implémentation dans les fichiers examinés.
+
+6. Méthode de l'application — `Canvas/include/NKCanvas/App/NkCanvasApp.h` : `virtual bool OnKeyPress(const NkKeyPressEvent &event)` est une véritable méthode virtuelle. Elle permet à une application dérivée de personnaliser le traitement d'une touche pressée. Son appel effectif depuis `DispatchTyped` n'a pas pu être confirmé.
+
+Où je me suis arrêté :
+
+Je me suis arrêté au lien entre la réception réelle de WM_KEYDOWN sous Windows et l'appel de NkCanvasApp::OnKeyPress. L'exemple de traitement de WM_KEYDOWN trouvé dans NkKeycodeMap.h est commenté et ne prouve donc pas que ce code est exécuté. De plus, l'implémentation de NkCanvasApp::DispatchTyped n'a pas été retrouvée dans les fichiers examinés. Je peux identifier les principales couches et certaines déclarations réelles, mais je ne peux pas confirmer le chemin complet de bout en bout.
+
+Combien :
+
+6 couches identifiées ; 2 éléments essentiels confirmés dans le code : la définition de NkKeyPressEvent et la déclaration de OnKeyPress. Le chemin complet n'a pas été observé en fonctionnement.
