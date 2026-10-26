@@ -1,0 +1,49 @@
+Par le texte :
+
+Commande utilisée pour rechercher les appels à Draw dans les fichiers du projet :
+
+```
+Get-ChildItem -Path .\Canvas\include, .\Exercice-Sprint\src -Recurse -Include *.h,*.hpp,*.cpp | Select-String -Pattern 'Draw\s*\('
+```
+
+Résultats attendus d'après le code et les en-têtes étudiés :
+
+1. Dans NkDrawable.h, la méthode Draw est déclarée comme une méthode virtuelle pure. Elle oblige les classes dérivées à fournir leur propre implémentation.
+2. Dans NkRenderTarget.h, la méthode Draw qui reçoit un objet NkDrawable appelle drawable.Draw(*this, states). C'est un appel indirect qui utilise le mécanisme de dispatch virtuel.
+3. Dans main.cpp, MonObjet redéfinit Draw pour transmettre quatre sommets au moteur graphique.
+4. Dans main.cpp, ApplicationAppelants::OnRender appelle target.Draw(objet). Cet appel demande au moteur de dessiner l'objet.
+5. Dans main.cpp, MonObjet::Draw appelle target.Draw(sommets, 4, NkPrimitiveType::NK_LINES, states). Cet appel transmet les sommets au moteur graphique pour tracer les lignes.
+
+Remarque : cette liste est une estimation fondée sur les éléments du code déjà examinés. Il faut exécuter la commande dans le dossier réel du projet pour obtenir la liste complète des occurrences, avec leurs chemins et leurs numéros de ligne.
+
+Par la pile :
+
+Pile d'appels attendue, à confirmer dans le débogueur :
+
+1. MonObjet::Draw(target, states)
+   C'est la méthode dans laquelle le point d'arrêt est placé. Elle prépare les quatre sommets à dessiner.
+
+2. NkRenderTarget::Draw(const NkDrawable&, const NkRenderStates&)
+   Cette méthode reçoit l'objet sous la forme de NkDrawable et appelle drawable.Draw(*this, states). Le mécanisme virtuel permet d'exécuter la méthode Draw de MonObjet.
+
+3. ApplicationAppelants::OnRender(NkRenderWindow&)
+   Cette méthode crée l'objet MonObjet et demande son dessin avec target.Draw(objet).
+
+4. Fonctions internes du moteur NKCanvas
+   D'autres fonctions peuvent apparaître entre OnRender et Draw. Elles dépendent du fonctionnement du moteur et du backend graphique utilisé.
+
+Statut : pile estimée, non confirmée. Le débogueur n'a pas encore permis de relever la pile réelle. La compilation actuelle échoue à l'édition de liens avec le message « undefined symbol: WinMain ». Les fonctions et leur ordre doivent donc être vérifiés pendant une véritable session de débogage.
+
+Les différences :
+
+1. La recherche textuelle peut montrer plusieurs déclarations et appels à Draw, mais elle ne permet pas, à elle seule, de déterminer lequel est exécuté à un instant donné. Elle recense les occurrences écrites dans les fichiers, sans prouver qu'elles sont toutes utilisées pendant l'exécution.
+
+2. L'appel target.Draw(objet) est un appel visible dans notre code. Il conduit ensuite à la méthode Draw de NkRenderTarget, qui délègue le dessin à drawable.Draw(*this, states). Comme Draw est virtuelle, l'implémentation de MonObjet est appelée.
+
+3. La pile d'appels du débogueur représente le chemin d'exécution au moment où le programme est suspendu. Elle peut donc contenir des fonctions intermédiaires de NKCanvas qui ne sont pas évidentes dans notre fichier main.cpp.
+
+4. Les déclarations présentes dans les commentaires ou dans du code non exécuté peuvent apparaître dans une recherche textuelle sans apparaître dans la pile d'appels.
+
+5. L'implémentation interne du moteur graphique peut ajouter des appels supplémentaires. Le résultat dépend notamment du chemin d'exécution suivi et du backend utilisé. Dans notre test, le journal indique que le backend sélectionné est DirectX 11.
+
+6. Les résultats de la recherche textuelle et ceux de la pile d'appels sont donc complémentaires : la recherche montre où les appels sont écrits, tandis que la pile montre les fonctions effectivement actives au moment de l'arrêt. Pour conclure définitivement, il faudra comparer la liste complète des occurrences avec la pile réelle obtenue dans le débogueur.
