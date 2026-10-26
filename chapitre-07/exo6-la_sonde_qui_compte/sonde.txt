@@ -1,0 +1,45 @@
+**Plafond 60 :**
+
+Cadence visée : 60 images par seconde.
+Journalisation activée.
+
+* Nombre de passages : 597
+* Temps mesuré : 10,0103 secondes.
+
+**Sans plafond :**
+
+Cadence visée : 0, sans plafond de cadence demandé.
+Journalisation activée.
+
+* Nombre de passages : 605
+* Temps mesuré : 10,0158 secondes.
+
+**Sans la ligne :**
+
+Essai 3 — Plafond de 60 images par seconde, journalisation désactivée.
+
+* Nombre de passages : 595
+* Temps mesuré : 10,0091 secondes.
+
+Essai 4 — Sans plafond de cadence, journalisation désactivée.
+
+* Nombre de passages : 605
+* Temps mesuré : 10,0154 secondes.
+
+**Les écarts :**
+
+1. **Effet du plafond avec la journalisation activée :** le nombre de passages passe de 597 à 605, soit 8 passages supplémentaires lorsque le plafond est désactivé.
+
+2. **Effet du plafond sans la journalisation :** le nombre de passages passe de 595 à 605, soit 10 passages supplémentaires lorsque le plafond est désactivé.
+
+3. **Effet de la journalisation avec un plafond de 60 :** le nombre de passages passe de 595 sans journalisation à 597 avec journalisation, soit une différence de 2 passages.
+
+4. **Effet de la journalisation sans plafond :** le nombre de passages est de 605 avec journalisation et de 605 sans journalisation. Aucune différence n'est observée dans le nombre total de passages lors de ces deux mesures.
+
+**Conclusion :**
+
+Dans ces essais, la désactivation du plafond de cadence permet d'obtenir davantage de passages pendant une période d'environ 10 secondes. Avec la journalisation désactivée, on observe 605 passages sans plafond contre 595 avec un plafond de 60 images par seconde.
+
+L'effet de la journalisation est faible dans ces mesures : avec le plafond activé, on observe une différence de 2 passages, tandis que sans plafond, le nombre de passages reste identique.
+
+Ces résultats correspondent à une seule mesure par configuration. Ils permettent d'observer des tendances, mais plusieurs répétitions seraient nécessaires pour tirer des conclusions plus générales.
