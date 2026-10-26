@@ -1,0 +1,11 @@
+Ce qu'il possède :
+NkTransformable possède huit données membres : mPosition, mRotation, mScale, mOrigin, mCachedTransform, mCachedInverse, mDirty et mInverseDirty. Les quatre premières décrivent l'état de transformation de l'objet : position, rotation, échelle et pivot. Les quatre autres sont des données techniques liées au cache des transformations et à leur recalcul. Je les distingue des propriétés de l'objet, mais elles restent des données membres.
+
+Qui l'appelle :
+Dans NKCanvas/Renderer/Resources/NkSprite.h, NkSprite et NkText héritent de NkTransformable. Dans NKCanvas/Renderer/Shapes/NkShape.h, NkShape en hérite également. Ces déclarations d'héritage sont des utilisations réelles de la classe, contrairement aux simples mentions trouvées dans des commentaires de NkDrawable.h ou dans la documentation de NkTransformable.h.
+
+Ce qu'il promet :
+Les noms des méthodes publiques annoncent la possibilité de définir et de récupérer la position, la rotation, l'échelle et le pivot. La classe propose aussi le déplacement, la rotation et la mise à l'échelle incrémentaux, ainsi que l'accès à la transformation combinée et à sa transformation inverse.
+
+Ce que je n'ai pas lu :
+Je n'ai pas lu le corps des méthodes pour répondre aux trois questions. Je me suis limité aux données membres privées, aux recherches d'occurrences dans les en-têtes et aux noms des méthodes publiques pour identifier l'état, les utilisateurs et les fonctionnalités annoncées.
