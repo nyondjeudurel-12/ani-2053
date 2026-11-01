@@ -1,0 +1,19 @@
+Situations :
+
+1. **Le joueur maintient la flèche droite : PULL.** Le mouvement dure tant que la touche reste enfoncée. Il faut donc vérifier son état à chaque image pour continuer à déplacer le joueur. Outil : `NkInput.IsKeyDown(NkKey::NK_RIGHT)`, dans `NKEvent/NkEventDispatcher.h:1510`.
+
+2. **Le joueur appuie sur Échap : PUSH.** L'appui sur Échap est une action ponctuelle. Il suffit d'être prévenu au moment où la touche est pressée, sans vérifier son état à chaque image. Outil : `NkKeyPressEvent`, avec le dispatch `NK_DISPATCH`, dans `NKEvent/NkEventDispatcher.h:1433`.
+
+3. **On veut connaître la position de la souris : PULL.** La position est une information qui peut changer continuellement. On peut la demander au moment où on en a besoin, par exemple à chaque image. Outil : `NkInput.MouseX()` et `NkInput.MouseY()`, dans `NKEvent/NkEventDispatcher.h:1813-1814`.
+
+4. **Un fichier est déposé sur la fenêtre : PUSH.** Le dépôt est un événement ponctuel. L'application doit être prévenue au moment où le fichier arrive, plutôt que de vérifier continuellement si un fichier a été déposé. Outil : `NkDropFileEvent`, avec `eventManager.Subscribe<NkDropFileEvent>()`, dans `NKEvent/NkDropEvent.h:738`.
+
+5. **La fenêtre est redimensionnée : PUSH.** Le redimensionnement est un événement qui survient à un instant précis. L'application doit être avertie pour adapter son affichage à la nouvelle taille. Outil : le crochet `OnLayout`, dans `NKCanvas/App/NkCanvasApp.h:291`.
+
+6. **Le joueur double-clique : PUSH.** Le double-clic est une action ponctuelle composée de deux clics rapprochés. Il faut recevoir les événements des clics pour détecter cette action, et non vérifier le double-clic à chaque image. Outil : `NkMouseButtonEvent`, traité avec `NK_DISPATCH`, dans `NKEvent/NkEventDispatcher.h:1437`. Il faut ensuite vérifier le délai entre les deux clics pour reconnaître le double-clic.
+
+Les deux bogues :
+
+**1. Utiliser PULL pour une action ponctuelle comme l'appui sur Échap :** si on vérifie continuellement si la touche est enfoncée et qu'on déclenche l'action à chaque image, une seule pression peut provoquer plusieurs déclenchements. Par exemple, l'action de pause peut partir trois fois au lieu d'une seule.
+
+**2. Utiliser PUSH pour un mouvement continu comme le déplacement avec la flèche droite :** si on déplace le joueur uniquement au moment où l'événement d'appui sur la touche arrive, le joueur avance une seule fois. Même si la touche reste enfoncée, le mouvement s'arrête trop tôt parce qu'on ne vérifie pas que la touche est toujours maintenue.
