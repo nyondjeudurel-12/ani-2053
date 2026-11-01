@@ -1,0 +1,33 @@
+Virtuelles pures :
+
+Dans le fichier `NkIRenderer2D.h`, j'ai trouvé 30 méthodes virtuelles pures. Pour les compter, j'ai parcouru les déclarations de la classe et retenu les méthodes terminées par `= 0;`. J'ai également identifié 15 méthodes virtuelles qui possèdent déjà un corps et fournissent donc une implémentation par défaut. Le destructeur virtuel est présent, mais je ne l'ai pas inclus dans ces deux nombres.
+
+Dorsaux :
+
+En parcourant le dossier `Canvas/include/NKCanvas/Backend/`, j'ai identifié six dorsaux de rendu :
+
+* NkSoftwareRenderer2D
+* NkOpenGLRenderer2D
+* NkVulkanRenderer2D
+* NkDX11Renderer2D
+* NkDX12Renderer2D
+* NkMetalRenderer2D
+
+Ce que chacun écrit :
+
+Après vérification des fichiers d'en-tête, j'ai constaté que les six dorsaux héritent de `NkBatchRenderer2D`.
+
+Voici le nombre de méthodes redéfinies dans chaque fichier, sans compter les destructeurs :
+
+* NkSoftwareRenderer2D : 9 méthodes.
+* NkOpenGLRenderer2D : 9 méthodes.
+* NkVulkanRenderer2D : 8 méthodes dans la version principale et 6 dans la version simplifiée.
+* NkDX11Renderer2D : 8 méthodes.
+* NkDX12Renderer2D : 8 méthodes.
+* NkMetalRenderer2D : 9 méthodes.
+
+Le coût :
+
+La classe `NkBatchRenderer2D` contient déjà une grande partie du travail commun. Elle implémente 26 des 30 méthodes virtuelles pures de `NkIRenderer2D`. Il reste donc quatre méthodes de l'interface à implémenter : `Initialize`, `Shutdown`, `IsValid` et `Clear`.
+
+Elle impose aussi deux autres méthodes virtuelles pures : `SubmitBatches` et `UploadProjection`. Ainsi, pour créer un nouveau dorsal, il faut obligatoirement implémenter au minimum 6 méthodes. Les autres méthodes redéfinies dans les dorsaux existants, comme `BeginBackend`, `EndBackend` et `ApplyScissor`, servent à personnaliser le fonctionnement du rendu selon le système graphique utilisé. Cela montre que l'architecture évite de réécrire tout le code commun et facilite l'ajout de nouveaux dorsaux.
