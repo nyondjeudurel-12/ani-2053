@@ -1,29 +1,150 @@
-Recherche :
+# Les crochets du patron
+
+## Les crochets :
+
+La classe `NkCanvasApp` possède 12 crochets virtuels que l'application peut redéfinir.
+
+| Crochet          | Ligne | Rôle ou promesse documentée                                                                                              |
+| ---------------- | ----: | ------------------------------------------------------------------------------------------------------------------------ |
+| OnCommandLine    |   249 | Appelé avant la création de la fenêtre. Une valeur retournée arrête le programme avec le code indiqué.                   |
+| OnInit           |   255 | Appelé lorsque la fenêtre et la cible de rendu existent. Retourner `false` abandonne l'initialisation.                   |
+| OnUpdate         |   259 | Effectue la mise à jour de l'application.                                                                                |
+| OnRender         |   262 | Effectue le rendu de l'application.                                                                                      |
+| OnShutdown       |   265 | Intervient lors de l'arrêt de l'application.                                                                             |
+| OnEvent          |   270 | Reçoit les événements bruts. Retourner `true` consomme l'événement.                                                      |
+| OnPointer        |   277 | Reçoit les gestes de souris et les interactions tactiles.                                                                |
+| OnKeyPress       |   282 | Reçoit les événements de pression des touches.                                                                           |
+| OnLayout         |   291 | Appelé lors d'un changement de taille, de zone sûre ou de densité. Au moins un appel est promis avant la première image. |
+| OnCloseRequested |   314 | Reçoit une demande de fermeture. Retourner `false` refuse la fermeture.                                                  |
+| OnPause          |   321 | Appelé lorsque l'application passe en arrière-plan ou perd le focus.                                                     |
+| OnResume         |   323 | Correspond au retour de l'application au premier plan.                                                                   |
+
+## L'ordre mesuré :
+
+Les journaux suivants ont été obtenus pendant les exécutions réelles.
+
+### Exécution Debug
+
+```text
+1 | OnCommandLine | Image : 0 | Time : 0 s
+2 | OnInit | Image : 0 | Time : 0 s
+3 | OnEvent | Image : 0 | Time : 0 s
+4 | OnPointer | Image : 0 | Time : 0 s
+5 | OnUpdate | Image : 1 | Time : 1.5e-06 s
+6 | OnRender | Image : 1 | Time : 1.5e-06 s
+7 | OnUpdate | Image : 5 | Time : 0.132039 s
+8 | OnRender | Image : 5 | Time : 0.132039 s
+9 | OnShutdown | Image : 5 | Time : 0.132039 s
+```
+
+L'ordre observé en Debug est donc :
+
+1. OnCommandLine
+2. OnInit
+3. OnEvent
+4. OnPointer
+5. OnUpdate
+6. OnRender
+7. OnUpdate
+8. OnRender
+9. OnShutdown
+
+### Exécution Release
+
+```text
+1 | OnCommandLine | Image : 0 | Time : 0 s
+2 | OnInit | Image : 0 | Time : 0 s
+3 | OnEvent | Image : 0 | Time : 0 s
+4 | OnUpdate | Image : 1 | Time : 9e-07 s
+5 | OnRender | Image : 1 | Time : 9e-07 s
+6 | OnUpdate | Image : 5 | Time : 0.133158 s
+7 | OnRender | Image : 5 | Time : 0.133158 s
+8 | OnShutdown | Image : 5 | Time : 0.133158 s
+```
+
+L'ordre observé en Release est donc :
+
+1. OnCommandLine
+2. OnInit
+3. OnEvent
+4. OnUpdate
+5. OnRender
+6. OnUpdate
+7. OnRender
+8. OnShutdown
+
+L'application s'est arrêtée automatiquement après cinq images grâce à l'appel de `Quit()`.
+
+## Les surprises :
+
+**1. OnCommandLine est appelé avant OnInit.**
+
+Cela confirme que ce crochet intervient avant la création de la fenêtre.
+
+**2. OnLayout n'apparaît pas dans les journaux.**
+
+C'est surprenant, car la documentation indique qu'il doit être appelé au moins une fois avant la première image. Il faudra approfondir cette différence entre le comportement annoncé et le résultat observé.
+
+**3. OnPointer apparaît en Debug, mais pas en Release.**
+
+Les deux exécutions n'ont donc pas produit exactement les mêmes événements. Cela montre que certains appels peuvent dépendre du déroulement de l'exécution.
+
+OnCloseRequested, OnKeyPress, OnPause et OnResume n'ont pas non plus été observés. Comme nous n'avons effectué aucune interaction manuelle et que l'application s'est arrêtée automatiquement, ces crochets n'ont pas été déclenchés pendant nos tests.
+
+## Debug et Release :
+
+Les deux configurations ont été compilées et exécutées avec succès.
+
+* **Debug :** compilation en environ 5,15 secondes.
+* **Release :** compilation en environ 11,44 secondes.
+* **Nombre d'appels enregistrés :** 9 en Debug et 8 en Release.
+* **Durée affichée par le lancement Debug :** environ 1,70 seconde.
+
+La version Release a été lancée directement depuis son fichier exécutable afin de vérifier cette configuration indépendamment de la commande `jenga run`, qui lançait le programme Debug.
+
+Les deux versions ont suivi presque le même ordre d'exécution. La principale différence observée concerne l'appel de OnPointer, présent dans le journal Debug mais absent du journal Release.
+
+Ces résultats montrent que les crochets permettent de suivre les différentes étapes du cycle de vie d'une application `NkCanvasApp`.
+
+---
+
+# Recherche sur NkOpenGLRenderer2D
 
 J'ai utilisé la commande PowerShell suivante pour rechercher le nom `NkOpenGLRenderer2D` dans tous les fichiers du dossier `Canvas/include` :
 
+```powershell
+# Définir le dossier de recherche.
 $racine = (Resolve-Path ".\Canvas\include").Path
+
+# Rechercher le nom dans tous les fichiers.
 $resultats = Get-ChildItem $racine -Recurse -File | Select-String -SimpleMatch "NkOpenGLRenderer2D"
+
+# Récupérer les chemins des fichiers trouvés sans doublons.
 $fichiers = $resultats | Select-Object -ExpandProperty Path -Unique
+```
 
-Résultat : 5 fichiers différents trouvés, dont 1 dans le dossier du dorsal OpenGL et 4 en dehors de ce dossier.
+Résultat : 5 fichiers différents ont été trouvés, dont 1 dans le dossier du dorsal OpenGL et 4 en dehors de ce dossier.
 
-Hors de son dossier :
+## Hors de son dossier :
 
 Voici les fichiers trouvés en dehors de `NKCanvas/Backend/OpenGL/` et les lignes correspondantes :
 
-* NKCanvas\Renderer\Core\NkIRenderer2D.h:15 — Commentaire qui mentionne le dorsal OpenGL.
-* NKCanvas\Renderer\Core\NkRenderer2D.h:19 — Commentaire qui cite les différents dorsaux.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:22 — Commentaire explicatif.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:24 — Commentaire contenant un exemple d'enregistrement.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:25 — Commentaire contenant un exemple d'enregistrement.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:26 — Commentaire contenant un exemple d'enregistrement.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:27 — Commentaire contenant un exemple d'enregistrement.
-* NKCanvas\Renderer\Resources\NkTextureBackend.h:28 — Commentaire contenant un exemple d'enregistrement.
-* NKGui\Core\NkGuiDrawListRaster.h:35 — Commentaire qui mentionne une méthode du dorsal OpenGL.
+* `NKCanvas\Renderer\Core\NkIRenderer2D.h:15` — Commentaire qui mentionne le dorsal OpenGL.
+* `NKCanvas\Renderer\Core\NkRenderer2D.h:19` — Commentaire qui cite les différents dorsaux.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:22` — Commentaire explicatif.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:24` — Commentaire contenant un exemple d'enregistrement.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:25` — Commentaire contenant un exemple d'enregistrement.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:26` — Commentaire contenant un exemple d'enregistrement.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:27` — Commentaire contenant un exemple d'enregistrement.
+* `NKCanvas\Renderer\Resources\NkTextureBackend.h:28` — Commentaire contenant un exemple d'enregistrement.
+* `NKGui\Core\NkGuiDrawListRaster.h:35` — Commentaire qui mentionne une méthode du dorsal OpenGL.
 
 Toutes ces occurrences sont des commentaires. Je n'ai trouvé aucune utilisation réelle de `NkOpenGLRenderer2D` dans du code situé en dehors de son dossier.
 
-Conclusion :
+## Conclusion :
 
-Après avoir examiné `NkRenderer2DFactory.h`, j'ai constaté que ce fichier ne cite directement aucun dorsal concret. Il propose une méthode `Create()` qui retourne un pointeur de type `NkIRenderer2D*`. Cela permet au programme d'utiliser un moteur de rendu sans connaître directement sa classe concrète. La recherche montre que le nom `NkOpenGLRenderer2D` apparaît dans quatre autres fichiers, mais uniquement dans des commentaires. Il n'y a donc pas de dépendance réelle au dorsal OpenGL dans le code de ces fichiers. Cette organisation montre l'intérêt du système de fabrique : centraliser la création des objets concrets et éviter de répandre leur connaissance dans le reste du programme.
+Après avoir examiné `NkRenderer2DFactory.h`, j'ai constaté que ce fichier ne cite directement aucun dorsal concret. Il propose une méthode `Create()` qui retourne un pointeur de type `NkIRenderer2D*`.
+
+Cela permet au programme d'utiliser un moteur de rendu sans connaître directement sa classe concrète. La recherche montre que le nom `NkOpenGLRenderer2D` apparaît dans quatre autres fichiers, mais uniquement dans des commentaires.
+
+Il n'y a donc pas de dépendance réelle au dorsal OpenGL dans le code de ces fichiers. Cette organisation montre l'intérêt du système de fabrique : centraliser la création des objets concrets et éviter de répandre leur connaissance dans le reste du programme.
