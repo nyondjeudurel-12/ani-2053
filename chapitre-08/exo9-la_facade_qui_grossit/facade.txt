@@ -1,0 +1,82 @@
+Publiques :
+
+24 méthodes publiques.
+
+Règle de comptage : chaque surcharge est comptée séparément. Les versions const et non const sont également comptées séparément. Le destructeur n'est pas inclus dans ce compte.
+
+Liste des méthodes :
+
+1. Clear()
+2. Display()
+3. SetView()
+4. GetView()
+5. GetDefaultView()
+6. ResetView()
+7. IsViewCustom()
+8. SetViewport()
+9. GetViewport()
+10. SetResizePolicy()
+11. GetResizePolicy()
+12. GetDesignSize()
+13. GetSize()
+14. Draw(const NkDrawable&)
+15. Draw(const NkVertexArray&)
+16. Draw(const NkVertex*, uint32, NkPrimitiveType, const NkRenderStates&)
+17. Draw(const NkIDrawable2D&)
+18. MapPixelToCoords()
+19. MapCoordsToPixel()
+20. GetRenderer() non const
+21. GetRenderer() const
+22. GetRenderer2D() non const
+23. GetRenderer2D() const
+24. Capture()
+
+Utiles :
+
+5 méthodes utilisées par les programmes du sprint ou par le cycle de rendu de NkCanvasApp :
+
+1. Clear() : efface la cible avec une couleur avant de commencer le dessin.
+2. Display() : présente le résultat du rendu à la fin de l'image. Elle fait partie du cycle normal de rendu.
+3. Draw(const NkDrawable&) : permet de dessiner les objets qui utilisent la nouvelle interface NkDrawable. Elle est utilisée dans l'exercice du composite à trois niveaux.
+4. Draw(const NkVertex*, uint32, NkPrimitiveType, const NkRenderStates&) : permet d'envoyer directement les sommets au moteur graphique. C'est le point d'entrée utilisé par les objets qui dessinent leurs propres sommets.
+5. GetRenderer() non const : permet d'accéder au renderer bas niveau. Cette méthode est utilisée dans l'exercice du composite pour créer une texture.
+
+Les autres :
+
+19 méthodes supplémentaires :
+
+1. SetView() : permet de définir la caméra ou la vue utilisée pour afficher la scène.
+2. GetView() : permet de récupérer la vue actuellement utilisée.
+3. GetDefaultView() : permet de récupérer la vue par défaut.
+4. ResetView() : permet de revenir à la vue par défaut après une modification.
+5. IsViewCustom() : permet de savoir si une vue personnalisée a été définie.
+6. SetViewport() : permet de définir la partie de la fenêtre dans laquelle le rendu sera affiché.
+7. GetViewport() : permet de récupérer la zone de rendu actuelle.
+8. SetResizePolicy() : permet de choisir comment l'image doit s'adapter lorsque la cible change de taille.
+9. GetResizePolicy() : permet de connaître la politique de redimensionnement utilisée.
+10. GetDesignSize() : permet de récupérer la résolution de référence utilisée pour les ajustements.
+11. GetSize() : permet de connaître les dimensions de la cible en pixels.
+12. Draw(const NkVertexArray&) : permet de dessiner directement un tableau de sommets.
+13. Draw(const NkIDrawable2D&) : permet de dessiner les anciens objets qui utilisent l'interface NkIDrawable2D.
+14. MapPixelToCoords() : permet de convertir une position en pixels vers une position dans le monde.
+15. MapCoordsToPixel() : permet de convertir une position du monde vers une position en pixels.
+16. GetRenderer() const : donne un accès en lecture seule au renderer bas niveau.
+17. GetRenderer2D() non const : donne accès à la façade NkRenderer2D pour utiliser ses fonctionnalités de rendu.
+18. GetRenderer2D() const : donne un accès en lecture seule à cette façade.
+19. Capture() : permet d'enregistrer le contenu de la cible dans un fichier image.
+
+Une méthode est clairement indiquée comme provisoire dans les commentaires : Draw(const NkIDrawable2D&). Le commentaire précise qu'elle sera retirée lorsque NkSprite et NkText auront terminé leur migration vers NkDrawable à l'étape A.8.
+
+La méthode Capture() possède également une limite indiquée dans son commentaire : elle retourne false par défaut si la capture n'est pas prise en charge par la cible ou le backend.
+
+Le rapport :
+
+Sur les 24 méthodes publiques, 5 sont classées comme utiles pour les besoins étudiés et 19 correspondent à des fonctionnalités supplémentaires.
+
+Le rapport entre les méthodes utiles et les autres est donc de 5/19, soit environ 0,26. Les autres représentent environ 79,2 % de l'ensemble des méthodes, contre 20,8 % pour les méthodes utiles.
+
+La façade tient encore partiellement sa promesse. Elle simplifie bien les opérations courantes comme effacer l'écran, dessiner des objets et présenter le résultat. Cependant, elle expose aussi beaucoup de fonctionnalités supplémentaires concernant les caméras, les zones de rendu, les conversions de coordonnées et l'accès direct au renderer.
+
+Elle devient donc assez grande par rapport à son objectif de simplification. La présence de l'ancienne méthode Draw(const NkIDrawable2D&) montre également qu'elle conserve encore des éléments de compatibilité qui devraient disparaître après la migration annoncée.
+
+En conclusion, NkRenderTarget reste utile, mais sa façade pourrait être simplifiée pour mieux respecter son objectif de départ.
