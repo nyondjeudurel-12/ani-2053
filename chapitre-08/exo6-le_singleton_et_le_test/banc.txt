@@ -1,0 +1,56 @@
+Tester la version directe :
+
+La version directe utilise directement le singleton NkInput pour vérifier si la touche Espace est enfoncée.
+
+Pour tester cette fonction, il faudrait :
+
+* Pouvoir contrôler l'état du singleton NkInput.
+* Initialiser ou simuler le système d'événements.
+* Simuler l'appui et le relâchement de la touche Espace.
+* Réinitialiser les données après chaque test pour éviter que les tests dépendent les uns des autres.
+
+Cela rend les tests plus compliqués, car la fonction dépend d'un élément extérieur au lieu de recevoir directement ses données.
+
+La version testable :
+
+La version testable utilise deux paramètres : auSol et espaceEnfoncee.
+
+Elle retourne true uniquement si le personnage est au sol et si la touche Espace est enfoncée.
+
+Elle ne dépend pas du singleton NkInput. On peut donc lui transmettre directement les valeurs nécessaires pour tester facilement toutes les situations.
+
+Le banc :
+
+Les quatre tests ont été exécutés avec succès.
+
+Résultats en Debug :
+
+Test 1 : auSol=1, espace=1, attendu=1, obtenu=1 : REUSSI
+Test 2 : auSol=1, espace=0, attendu=0, obtenu=0 : REUSSI
+Test 3 : auSol=0, espace=1, attendu=0, obtenu=0 : REUSSI
+Test 4 : auSol=0, espace=0, attendu=0, obtenu=0 : REUSSI
+
+Nombre d'échecs : 0
+Code de sortie : 0
+
+Résultats en Release :
+
+Test 1 : auSol=1, espace=1, attendu=1, obtenu=1 : REUSSI
+Test 2 : auSol=1, espace=0, attendu=0, obtenu=0 : REUSSI
+Test 3 : auSol=0, espace=1, attendu=0, obtenu=0 : REUSSI
+Test 4 : auSol=0, espace=0, attendu=0, obtenu=0 : REUSSI
+
+Nombre d'échecs : 0
+Code de sortie : 0
+
+Les deux compilations donnent les mêmes résultats. Tous les tests sont réussis.
+
+Sans fenêtre :
+
+La version directe retourne false en Debug comme en Release.
+
+Cela s'explique par le fait que OnCommandLine est exécutée avant la création de la fenêtre. Aucun appui sur la touche Espace n'a été simulé.
+
+Le singleton NkInput ne reçoit donc aucun événement indiquant que la touche est enfoncée. La fonction directe ne peut pas facilement être testée dans ces conditions.
+
+La version testable évite ce problème, car elle reçoit directement les valeurs nécessaires.
