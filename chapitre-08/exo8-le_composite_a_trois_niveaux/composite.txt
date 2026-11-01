@@ -1,0 +1,28 @@
+La hiérarchie :
+Parent (100, 80) -> Milieu (40, 20), rotation de 90° -> Sprite (10, 5).
+
+Attendu :
+La position finale attendue du Sprite est (135.00, 110.00).
+
+Mesuré :
+
+En mode Debug :
+
+* Probe correct : (135.00, 110.00)
+* Probe défectueux : (10.00, 5.00)
+
+En mode Release :
+
+* Probe correct : (135.00, 110.00)
+* Probe défectueux : (10.00, 5.00)
+
+Les résultats sont identiques dans les deux configurations. Le probe correct récupère et combine les transformations de tous les niveaux de la hiérarchie. Sa position mesurée correspond donc à la position attendue.
+
+Le défaut :
+Le deuxième probe ignore volontairement les transformations reçues de ses parents. Il utilise uniquement sa propre transformation. C'est pour cette raison qu'il affiche (10.00, 5.00) au lieu de la position finale attendue.
+
+Conclusion :
+Cet exercice montre l'importance de transmettre et de combiner correctement les transformations dans une hiérarchie de composants. Chaque niveau doit conserver les transformations reçues de son parent et ajouter sa propre transformation.
+
+Capture :
+Le fichier capture.png contient la capture d'écran réalisée avec DirectX 11 à la dixième image.
