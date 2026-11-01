@@ -1,0 +1,70 @@
+Le premier pont :
+
+Le premier pont se trouve dans le fichier Canvas/include/NKCanvas/UI/NkGuiCanvasBackend.h.
+
+La classe NkGuiCanvasBackend permet de faire le lien entre NKGui et le moteur de rendu 2D de NKCanvas, appelé NkIRenderer2D.
+
+Ce pont reçoit une liste de commandes de dessin appelée NkGuiDrawList, ainsi que la largeur et la hauteur du framebuffer. Cette liste contient les sommets, les indices et les commandes nécessaires pour dessiner l'interface.
+
+Les principales méthodes sont :
+
+* Init (lignes 38 à 41) : initialise le pont avec un moteur NkIRenderer2D.
+* UploadFontGray8 (lignes 45 à 94) : charge les données d'une police au format Gray8 et les transforme en texture RGBA.
+* UploadImageRGBA (lignes 98 à 122) : charge les données d'une image au format RGBA.
+* Submit (ligne 213) : parcourt les commandes de dessin, convertit les sommets, recherche les textures, applique les zones de découpage et les modes de mélange, puis transmet le résultat au moteur avec DrawVertices.
+
+Le pont ne reçoit donc pas directement des fenêtres ou des boutons. Il reçoit une liste de commandes déjà préparées par NKGui et demande à NKCanvas de les dessiner.
+
+Le second pont :
+
+Pour afficher la même interface dans un fichier image au lieu de l'afficher directement à l'écran, on pourrait créer un deuxième adaptateur qui utiliserait les mêmes commandes de dessin, mais qui enverrait le résultat vers une image.
+
+Il faudrait notamment :
+
+* Créer une surface de dessin hors écran.
+* Récupérer les commandes de dessin de NKGui.
+* Les envoyer vers le moteur de rendu associé à cette surface.
+* Récupérer les pixels obtenus et les enregistrer dans un fichier image.
+
+Ce deuxième pont ne devrait pas modifier NKGui. Il devrait simplement utiliser les données déjà produites par NKGui et changer la destination du rendu.
+
+Combien de méthodes :
+
+Un deuxième pont simple pourrait avoir trois méthodes principales :
+
+1. Init : prépare la surface hors écran et définit ses dimensions.
+2. Submit : reçoit la liste NkGuiDrawList et demande son dessin sur la surface hors écran.
+3. Save : récupère le résultat et l'enregistre dans un fichier image.
+
+Ces trois méthodes suffisent pour présenter le fonctionnement général. Il faudrait également gérer les textures des polices et des images utilisées par l'interface.
+
+Les données nécessaires sont :
+
+* La liste des sommets et leurs positions.
+* Les indices qui indiquent comment assembler les sommets.
+* Les commandes de dessin.
+* Les identifiants et les données des textures.
+* Les informations de découpage et les modes de mélange.
+* La largeur et la hauteur de l'image à produire.
+
+Ces informations permettent de reproduire l'interface sans avoir besoin de modifier NKGui.
+
+Les données :
+
+Le pont doit recevoir les données de dessin déjà préparées par NKGui. Il n'a pas besoin de connaître la structure des fenêtres, des boutons ou des menus.
+
+Il doit surtout connaître les sommets, les indices et les commandes de dessin. Pour les commandes contenant des textures, il doit aussi pouvoir retrouver les textures correspondantes. Les données des polices et des images doivent donc être disponibles.
+
+Il faut également connaître les dimensions de la surface de destination pour adapter correctement le rendu. Enfin, les informations de découpage et de mélange doivent être conservées pour obtenir une image fidèle à l'interface affichée à l'écran.
+
+Dans le kit :
+
+Après vérification des fichiers du kit, je n'ai pas trouvé de deuxième adaptateur NKGui directement destiné à enregistrer une interface dans un fichier image.
+
+Le fichier NkUICanvasBackend.h existe, mais il s'agit d'un ancien adaptateur déprécié. Il relie l'ancien système NKUI à NkIRenderer2D. Il n'est donc pas un pont NKGui vers un fichier image.
+
+Le kit contient cependant NkRenderTexture.h, qui permet de faire du rendu hors écran vers une texture. Cette classe possède notamment les méthodes Create, Clear, Display et GetColorTextureGPUId. La documentation précise que le support réel de cette fonctionnalité est actuellement disponible avec OpenGL, tandis que les autres moteurs indiqués utilisent encore des versions provisoires.
+
+Le fichier NkRenderWindow.h contient également Capture, à la ligne 125, et CaptureToImage, à la ligne 135. Ces méthodes permettent de récupérer le contenu affiché dans la fenêtre, soit dans un fichier, soit dans un objet NkImage. La documentation précise toutefois que la capture dépend du moteur graphique et que DX11 est le support disponible pour le moment.
+
+En conclusion, le kit possède déjà des outils pour le rendu hors écran et la capture d'image, mais il ne fournit pas un deuxième adaptateur NKGui dédié à l'exportation directe d'une interface vers une image. Le pont NkGuiCanvasBackend reste donc l'adaptateur principal pour transformer les commandes de NKGui en opérations de rendu NKCanvas.
