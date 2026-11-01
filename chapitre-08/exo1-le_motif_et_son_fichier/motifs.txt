@@ -1,0 +1,77 @@
+Stratégie :
+
+Fichier : Canvas/include/NKCanvas/Renderer/Core/NkIRenderer2D.h
+Ligne : 46
+Extrait exact : class NkIRenderer2D {
+
+Cette interface représente le motif Stratégie. Elle définit un comportement commun pour les différents moteurs de rendu. Plusieurs implémentations peuvent utiliser cette interface, ce qui permet de changer de stratégie de rendu sans modifier le reste du programme.
+
+Fabrique :
+
+Fichier : Canvas/include/NKCanvas/Renderer/Core/NkRenderer2DFactory.h
+Ligne : 36
+Extrait exact : static NkIRenderer2D *Create(NkIGraphicsContext *ctx);
+
+Cette méthode représente le motif Fabrique. Elle permet de créer un objet de type NkIRenderer2D sans obliger le reste du programme à connaître directement la classe concrète utilisée.
+
+Façade :
+
+Fichier : Canvas/include/NKCanvas/Renderer/Core/NkRenderer2D.h
+Ligne : 58
+Extrait exact : class NkRenderer2D {
+
+Cette classe représente le motif Façade. Elle fournit une interface plus simple pour utiliser les fonctionnalités du système de rendu. Elle sert d'intermédiaire entre l'utilisateur et les différents éléments internes du moteur de rendu.
+
+Patron de méthode :
+
+Fichier : Canvas/include/NKCanvas/App/NkCanvasApp.h
+Ligne : 259
+Extrait exact : virtual void OnUpdate(float32 deltaTime) {
+
+Cette méthode représente un exemple du patron de méthode. La classe NkCanvasApp propose plusieurs étapes personnalisables du cycle de vie d'une application, comme OnInit(), OnUpdate(), OnRender() et OnShutdown(). Les classes dérivées peuvent redéfinir ces méthodes pour adapter le fonctionnement de leur application. L'identification est basée sur cette structure ; l'appel complet de ces méthodes dans Execute() reste à confirmer.
+
+Observateur :
+
+Fichier : Canvas/include/NKEvent/NkDropEvent.h
+Ligne : 713
+Extrait exact : eventManager.Subscribe<NkDropEnterEvent>(
+
+Cette ligne représente le motif Observateur. Elle permet à un élément de s'abonner à un événement. Lorsqu'un événement de type NkDropEnterEvent est envoyé, les fonctions enregistrées peuvent être appelées pour réagir à cet événement sans que l'émetteur ait besoin de connaître directement les éléments qui l'écoutent.
+
+Singleton :
+
+Fichier : Canvas/include/NKEvent/NkEventDispatcher.h
+Ligne : 417
+Extrait exact : inline NkInputQuery NkInput;
+
+Cette ligne montre une instance globale de NkInputQuery accessible directement dans le programme. Elle ressemble à une utilisation du motif Singleton, car elle permet d'accéder à un objet partagé. Cependant, il s'agit d'une instance globale et non d'une preuve d'implémentation du Singleton classique avec un constructeur privé et une méthode GetInstance(). L'identification est donc approximative.
+
+Adaptateur :
+
+Fichier : Canvas/include/NKCanvas/UI/NkGuiCanvasBackend.h
+Ligne : 38
+Extrait exact : bool Init(nkentseu::renderer::NkIRenderer2D *renderer) {
+
+Cette classe représente le motif Adaptateur. NkGuiCanvasBackend sert d'intermédiaire entre le système d'interface graphique NKGui et le moteur de rendu NKCanvas. Elle permet de faire communiquer deux systèmes qui n'utilisent pas directement la même interface.
+
+Composite :
+
+Fichier : Canvas/include/NKCanvas/Renderer/Core/NkDrawable.h
+Ligne : 24
+Extrait exact : //       local.transform *= GetTransform();   // applique notre transform
+
+Cet exemple apparaît uniquement dans un commentaire du fichier. Il illustre la composition de transformations lors du dessin d'un objet. Il ne constitue donc pas une preuve d'une implémentation complète du motif Composite dans le code actif. C'est un exemple illustratif présent dans la documentation du fichier.
+
+Commande :
+
+Aucune implémentation complète du motif Commande n'a été confirmée dans les fichiers examinés. Le candidat le plus proche se trouve dans :
+
+Fichier : Canvas/include/NKEvent/NkEventDispatcher.h
+Ligne : 642
+Extrait exact : struct NkActionCommand {
+
+Autres lignes intéressantes :
+Ligne 921 : void AddCommand(const NkActionCommand &cmd);
+Ligne 927 : void TriggerAction(const NkInputCode &code, bool isPressed);
+
+Cette structure représente une commande associée à une entrée physique, comme une touche ou un bouton. Le gestionnaire NkActionManager permet d'ajouter et de déclencher des actions. Cependant, les définitions des méthodes TriggerAction() et FireAction() n'ont pas été retrouvées dans les fichiers examinés. On ne peut donc pas confirmer une implémentation complète du motif Commande. Ce système constitue son analogue le plus proche.
