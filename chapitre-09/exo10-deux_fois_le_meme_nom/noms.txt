@@ -1,0 +1,2 @@
+nom : NkShape, fichier : Games/Kits/Canvas/include/Core/NkUtils.h, ligne : 20
+nom : NkShape, fichier : Games/Kits/Canvas/include/NKCanvas/Renderer/Shapes/NkShape.h, ligne : 40

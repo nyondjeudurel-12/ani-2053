@@ -1,0 +1,11 @@
+**Le premier mérite-t-il le nom :**
+
+Le premier NkShape représente un contour géométrique composé de plusieurs arêtes. Il est principalement utilisé dans le traitement des glyphes, notamment pour le rasterizer et le calcul des distances. Il ne représente donc pas directement une forme graphique destinée à être affichée. Le nom NkShape est assez général pour ce type, mais il peut être amélioré. Un nom comme NkGlyphShape serait plus précis et permettrait de mieux comprendre son rôle.
+
+**Le second mérite-t-il le nom :**
+
+Le second NkShape est une classe abstraite qui représente une forme géométrique destinée au rendu 2D. Elle gère notamment les couleurs, les contours, les textures et les points de la forme. Elle sert de classe de base à plusieurs formes comme NkCircleShape, NkConvexShape, NkLineShape et NkRectangleShape. Le nom NkShape lui convient donc bien, car il représente un concept général de forme graphique.
+
+**Le renommage le moins cher :**
+
+Le renommage le moins coûteux consiste à modifier le premier NkShape en NkGlyphShape. Dans les résultats de recherche, le premier type apparaît dans deux fichiers : NkUtils.h de Canvas et NkUtils.h de NKFont. Le second type est utilisé dans cinq fichiers principaux : son propre fichier et les quatre fichiers des formes dérivées. Renommer le premier type demande donc moins de modifications. En comptant les sept lignes contenant le nom dans chacun des deux fichiers NkUtils.h, cela représente environ 14 lignes à modifier. Le renommage du second demanderait davantage de changements, notamment dans les classes qui en héritent. Il est donc préférable de conserver NkShape pour la classe de rendu 2D et de renommer la structure utilisée pour les glyphes.
