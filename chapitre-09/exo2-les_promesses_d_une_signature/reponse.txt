@@ -1,0 +1,11 @@
+La promesse la plus forte :
+
+La méthode `WorldToLocal` possède trois promesses : elle est `static` et reçoit deux paramètres par référence constante (`const NkRefItem&` et `const NkVec2f&`). Son corps utilise uniquement les données reçues pour effectuer les calculs. Elle ne modifie donc ni les paramètres ni un objet `NkRefBoard`. De plus, étant statique, elle ne dépend pas d'une instance de la classe.
+
+Le message du compilateur :
+
+L'appel `vue.PanByPixels(1.0f, 0.0f);` provoque une erreur de compilation, car `vue` est déclarée constante alors que `PanByPixels()` modifie les coordonnées `center.x` et `center.y`. Le compilateur refuse donc l'appel d'une méthode non constante sur un objet constant.
+
+Une promesse que la signature ne dit pas :
+
+La méthode `PixelToWorld` suppose que la valeur de `zoom` est différente de zéro. En effet, son corps effectue des divisions par `zoom` sans vérifier cette valeur. Cette condition est nécessaire pour obtenir un résultat correct, mais elle n'est pas indiquée dans la signature de la méthode.
