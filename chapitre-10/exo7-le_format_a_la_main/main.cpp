@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <limits>
 
 class Lecteur
 {
