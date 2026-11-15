@@ -1,0 +1,11 @@
+**La ligne que j'ai changée :**
+
+Dans la copie de `NkRefFile.h`, j'ai modifié la ligne `PutF32(out, it.pos.x);` en `PutF32(out, it.pos.x + 1.0f);`. Cette modification ajoute 1 à la coordonnée X lors de la sérialisation. Je n'ai pas modifié le fichier original du moteur.
+
+**Ce que le test a vu :**
+
+Avec le format original, le test a affiché `relu : OUI, identiques : OUI`. Après la modification, il a affiché `relu : OUI, identiques : NON`. Cela montre que le test arrive à relire les données, mais détecte que les octets obtenus après le deuxième enregistrement ne sont plus identiques aux premiers.
+
+**Ce que le test ne voit pas :**
+
+Ce test ne garantit pas que chaque donnée est correctement enregistrée. Par exemple, si on écrit la coordonnée Y à la place de X à chaque sérialisation, les deux séquences peuvent rester identiques, même si les données ne représentent plus les bonnes coordonnées. De plus, le champ `selected` n'étant pas enregistré dans le fichier, le test ne peut pas détecter sa perte.
