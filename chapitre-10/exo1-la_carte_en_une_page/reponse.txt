@@ -1,0 +1,11 @@
+Ce que possède chaque fichier :
+
+NkRefView.h possède la caméra 2D. Il gère le centre, le zoom, les conversions entre les coordonnées du monde et celles de l'écran, le déplacement de la caméra et l'espacement de la grille. NkRefBoard.h possède le modèle de la planche. Il gère les images, leurs positions, leurs tailles, leurs rotations, les miroirs, la sélection, leur ordre de profondeur et les annotations au crayon. NkRefFile.h possède le système d'enregistrement et de lecture du format .nkref. Il gère la signature NKRF, la version, la sérialisation, la désérialisation et l'intégration des octets originaux des images. Enfin, main.cpp possède la glue de l'application : la fenêtre, les événements, le rendu, l'interface graphique, les interactions avec la souris et le clavier ainsi que les crochets d'agent.
+
+La part des fichiers purs :
+
+Les trois fichiers purs sont NkRefView.h, NkRefBoard.h et NkRefFile.h, car ils ne dépendent ni d'une fenêtre ni d'un système de rendu. Ils représentent 86 + 371 + 224 = 681 lignes sur un total de 2 654 lignes. Le calcul donne (681 / 2654) × 100 = 25,66 %. La glue représente donc la plus grande partie du code avec main.cpp et ses 1 973 lignes.
+
+Les deux fichiers que je garderais :
+
+Je garderais NkRefView.h et NkRefBoard.h. La caméra et le modèle représentent les bases de l'outil : la caméra définit comment on observe et déplace la planche, tandis que le modèle définit les images, leurs propriétés et leur organisation. Ce sont les deux parties essentielles qui définissent le fonctionnement de NkRef. La glue est importante pour utiliser l'application, mais elle pourrait être reconstruite autour de ces deux éléments.
