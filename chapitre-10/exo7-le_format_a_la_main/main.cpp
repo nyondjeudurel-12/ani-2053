@@ -69,6 +69,7 @@ public:
         }
 
         static_assert(sizeof(float) == sizeof(bits));
+        static_assert(std::numeric_limits<float>::is_iec559);
 
         std::memcpy(&valeur, &bits, sizeof(valeur));
         return true;
@@ -121,18 +122,22 @@ struct Trait
     std::vector<Point> points;
 };
 
-// Prépare un nombre avec deux chiffres après la virgule.
+// Formate un nombre avec deux décimales.
 std::string formater(float valeur)
 {
-    if (valeur == 0.0f)
-    {
-        valeur = 0.0f;
-    }
-
     std::ostringstream flux;
+
     flux << std::fixed << std::setprecision(2) << valeur;
 
-    return flux.str();
+    std::string resultat = flux.str();
+
+    // Remplace le zéro négatif par un zéro positif.
+    if (resultat == "-0.00")
+    {
+        resultat = "0.00";
+    }
+
+    return resultat;
 }
 
 int main()
@@ -184,7 +189,7 @@ int main()
 
     Lecteur lecteur(donnees);
 
-    // Vérification du nombre magique NKRF.
+    // Vérification de la signature NKRF.
     const std::uint8_t signature[4] = {
         0x4E, 0x4B, 0x52, 0x46
     };
@@ -222,7 +227,7 @@ int main()
         return 0;
     }
 
-    // Lecture de la vue.
+    // Lecture des informations de la vue.
     float cx;
     float cy;
     float zoom;
@@ -244,7 +249,7 @@ int main()
         return 0;
     }
 
-    // Lecture des images.
+    // Lecture du nombre d'images.
     std::uint32_t nombreImages;
 
     if (!lecteur.lireU32(nombreImages))
@@ -255,9 +260,11 @@ int main()
 
     std::vector<Image> images;
 
+    // Lecture des informations de chaque image.
     for (std::uint32_t i = 0; i < nombreImages; ++i)
     {
         Image image;
+
         std::uint8_t miroirX;
         std::uint8_t miroirY;
         std::uint8_t ignore1;
@@ -280,10 +287,11 @@ int main()
             return 0;
         }
 
+        // Convertit les valeurs des miroirs en 0 ou 1.
         image.mx = miroirX != 0 ? 1 : 0;
         image.my = miroirY != 0 ? 1 : 0;
 
-        // Vérifie puis saute les octets de la source.
+        // Saute les octets correspondant à la source de l'image.
         if (!lecteur.sauter(image.taille))
         {
             std::cout << "TRONQUE\n";
@@ -293,7 +301,7 @@ int main()
         images.push_back(image);
     }
 
-    // Lecture des traits.
+    // Lecture du nombre de traits.
     std::uint32_t nombreTraits;
 
     if (!lecteur.lireU32(nombreTraits))
@@ -304,6 +312,7 @@ int main()
 
     std::vector<Trait> traits;
 
+    // Lecture des traits et de leurs points.
     for (std::uint32_t i = 0; i < nombreTraits; ++i)
     {
         Trait trait;
@@ -337,16 +346,18 @@ int main()
         traits.push_back(trait);
     }
 
-    // Toutes les données sont valides : affichage de la vue.
+    // Affichage de la vue.
     std::cout << "VUE "
               << formater(cx) << " "
               << formater(cy) << " "
               << formater(zoom) << '\n';
 
+    // Affichage du thème.
     std::cout << "THEME "
               << (theme != 0 ? "SOMBRE" : "CLAIR")
               << '\n';
 
+    // Affichage de l'état de la grille.
     std::cout << "GRILLE "
               << (grille == 0 ? "AFFICHEE" : "CACHEE")
               << '\n';
@@ -371,7 +382,7 @@ int main()
                   << image.taille << '\n';
     }
 
-    // Affichage des traits et de leurs points.
+    // Affichage des traits.
     std::cout << "TRAITS " << traits.size() << '\n';
 
     for (std::size_t i = 0; i < traits.size(); ++i)
@@ -386,6 +397,7 @@ int main()
                   << formater(trait.epaisseur) << " "
                   << trait.points.size() << '\n';
 
+        // Affichage des points du trait.
         for (const Point& point : trait.points)
         {
             std::cout << "POINT "
