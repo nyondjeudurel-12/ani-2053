@@ -1,0 +1,11 @@
+Le signe que j'ai changé :
+
+J'ai remplacé le signe moins (-) par un signe plus (+) dans le calcul de center.x, dans la fonction ZoomAtPixel. J'ai effectué cette modification uniquement dans la copie du fichier NkRefView.h.
+
+Le test qui est tombé :
+
+Le test point_fixe a échoué. Il vérifie que le point du monde situé sous le curseur reste au même endroit après un zoom. Avec le signe modifié, la caméra ne conserve plus correctement ce point.
+
+Un test qui n'a rien vu :
+
+Le test grille est resté réussi. Il vérifie que l'espacement de la grille ne diminue pas lorsque le zoom diminue. Il ne vérifie pas la position du centre de la caméra, donc il ne détecte pas la modification du signe dans center.x.
