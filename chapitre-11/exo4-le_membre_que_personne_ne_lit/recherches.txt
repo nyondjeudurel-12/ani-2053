@@ -1,0 +1,82 @@
+commit :
+0d50a971f
+
+Les miroirs :
+
+Commande :
+git grep -n "GetFlipX" -- Kernel
+
+Résultat :
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Batch/NkBatchRenderer2D.cpp:315: // if (sprite.GetFlipX ? false : false) {}  // handled via sprite accessors if needed
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.cpp:52: bool NkSprite::GetFlipX() const {
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:131: bool GetFlipX() const;
+
+La ligne 315 est un commentaire et ne constitue pas une lecture réelle.
+
+Commande :
+git grep -n "GetFlipX" -- .
+
+Résultat :
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Batch/NkBatchRenderer2D.cpp:315: // if (sprite.GetFlipX ? false : false) {}  // handled via sprite accessors if needed
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.cpp:52: bool NkSprite::GetFlipX() const {
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:131: bool GetFlipX() const;
+wiki/Runtime/NKCanvas/Resources.md:294: | Apparence | SetColor/GetColor, SetFlipX/SetFlipY, GetFlipX/GetFlipY | Teinte (défaut White) et flips. |
+
+Commande :
+git grep -n "mFlipX" -- Kernel
+
+Résultat :
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.cpp:53: return mFlipX;
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:124: mFlipX = flip;
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:152: bool mFlipX = false;
+
+
+Membre 1 :
+
+Commandes :
+git grep -n "\.id" -- Applications/NkRef
+git grep -n "mNextId" -- Applications/NkRef
+git grep -n "AddItem" -- Applications/NkRef
+
+Résultats :
+
+Applications/NkRef/src/NkRef/NkRefBoard.h:67: it.id = mNextId++;
+Applications/NkRef/src/NkRef/NkRefBoard.h:73: return it.id;
+
+Applications/NkRef/src/NkRef/NkRefBoard.h:67: it.id = mNextId++;
+Applications/NkRef/src/NkRef/NkRefBoard.h:368: uint32 mNextId = 1;
+
+Applications/NkRef/src/NkRef/NkRefBoard.h:65: uint32 AddItem(...)
+Applications/NkRef/src/NkRef/main.cpp:620: board.AddItem(world, w, h, NkString(path));
+Applications/NkRef/src/NkRef/main.cpp:662: board.AddItem(world, clip.width, clip.height, NkString());
+
+
+Membre 2 :
+
+Commande :
+git grep -n "sourcePath" -- Applications/NkRef
+
+Résultat :
+Applications/NkRef/src/NkRef/NkRefBoard.h:44: NkString sourcePath;
+Applications/NkRef/src/NkRef/NkRefBoard.h:65: uint32 AddItem(... const NkString &sourcePath)
+Applications/NkRef/src/NkRef/NkRefBoard.h:71: it.sourcePath = sourcePath;
+
+
+Membre 3 :
+
+Commandes :
+git grep -n "SetFlipX" -- Kernel
+git grep -n "GetFlipX" -- .
+git grep -n "mFlipX" -- Kernel
+
+Résultats :
+
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:123: void SetFlipX(bool flip) {
+
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Batch/NkBatchRenderer2D.cpp:315: // if (sprite.GetFlipX ? false : false) {}  // commentaire uniquement
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.cpp:52: bool NkSprite::GetFlipX() const {
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:131: bool GetFlipX() const;
+
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.cpp:53: return mFlipX;
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:124: mFlipX = flip;
+Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:152: bool mFlipX = false;

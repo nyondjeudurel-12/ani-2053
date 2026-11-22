@@ -1,0 +1,30 @@
+Membre : NkRefItem::id
+Écrit dans : Applications/NkRef/src/NkRef/NkRefBoard.h:67
+Lu par : personne (les valeurs retournées par AddItem ne sont récupérées par aucun appelant)
+Verdict : inutile
+
+Preuve :
+L'identifiant est créé dans AddItem puis retourné, mais les deux appels trouvés dans main.cpp ignorent la valeur retournée. Aucun autre code de NkRef ne l'utilise pour retrouver ou identifier un élément. Il n'apporte donc aucune fonctionnalité actuellement utilisée.
+
+
+Membre : NkRefItem::sourcePath
+Écrit dans : Applications/NkRef/src/NkRef/NkRefBoard.h:71
+Lu par : personne
+Verdict : inutile
+
+Preuve :
+Le chemin du fichier est copié dans sourcePath lors de l'ajout d'un élément, mais aucune autre utilisation de cette propriété n'est trouvée dans NkRef. Le programme embarque les données des images dans son format de sauvegarde au lieu d'exploiter ce chemin. La propriété ne sert donc pas au fonctionnement actuel.
+
+
+Membre : NkSprite::mFlipX
+Écrit dans : Kernel/Runtime/NKCanvas/src/NKCanvas/Renderer/Resources/NkSprite.h:124
+Lu par : personne (GetFlipX retourne sa valeur, mais aucun appel réel à GetFlipX n'est trouvé dans le dépôt)
+Verdict : défaut
+
+Preuve :
+NkRef appelle SetFlipX pour transmettre la valeur du miroir au sprite. Cependant, le moteur de rendu ne lit jamais cette valeur pour modifier les coordonnées UV de l'image. Dans NkBatchRenderer2D.cpp, la ligne 315 qui mentionne GetFlipX est seulement un commentaire. L'utilisateur peut donc activer le miroir sans que l'image soit réellement inversée.
+
+
+Ce que la lecture seule n'aurait pas montré :
+
+La lecture seule aurait permis de voir que les propriétés existent et qu'elles sont modifiées, mais elle n'aurait pas suffi à comprendre leurs conséquences. Il fallait suivre les valeurs depuis leur écriture jusqu'à leur utilisation réelle dans le reste du dépôt. Cela permet de distinguer une propriété inutile d'un véritable défaut qui empêche une fonctionnalité attendue de fonctionner.
