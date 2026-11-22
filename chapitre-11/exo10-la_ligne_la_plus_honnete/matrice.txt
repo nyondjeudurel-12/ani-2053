@@ -1,0 +1,9 @@
+8
+zoom-precis 5 2 SUPPOSEE MANQUE
+deplacement-libre 4 2 SUPPOSEE MANQUE
+recherche-images 4 3 SUPPOSEE MANQUE
+groupes-planches 4 4 SUPPOSEE MANQUE
+raccourcis-clavier 4 2 SUPPOSEE MANQUE
+export-planche 3 3 SUPPOSEE MANQUE
+synchronisation-cloud 1 5 SUPPOSEE MANQUE
+apercu-grande-image 2 2 SUPPOSEE SOCLE zoom-precis

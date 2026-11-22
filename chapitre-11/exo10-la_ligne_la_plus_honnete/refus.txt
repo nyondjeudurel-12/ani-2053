@@ -1,0 +1,7 @@
+La ligne refusée : synchronisation-cloud
+
+Ma défense :
+Je comprends que tu veuilles retrouver tes planches sur plusieurs appareils. Mais mettre en place et maintenir cette synchronisation demanderait beaucoup de travail pour un avantage qui ne concerne pas forcément tous les utilisateurs. Je préfère donc ne pas promettre cette fonction maintenant, afin de consacrer le temps disponible aux fonctions de base de l'outil.
+
+Ce que je propose à la place :
+Je propose de pouvoir enregistrer facilement une planche dans un fichier et de la rouvrir plus tard sur un autre appareil. Cela permet de transporter et de conserver son travail sans devoir construire tout de suite un système de synchronisation automatique.

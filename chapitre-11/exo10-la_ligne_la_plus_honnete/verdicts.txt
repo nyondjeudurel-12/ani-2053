@@ -1,0 +1,9 @@
+MAINTENANT zoom-precis SUPPOSEE
+MAINTENANT apercu-grande-image SUPPOSEE
+MAINTENANT deplacement-libre SUPPOSEE
+MAINTENANT raccourcis-clavier SUPPOSEE
+DECOUPER recherche-images SUPPOSEE
+DECOUPER groupes-planches SUPPOSEE
+DECOUPER export-planche SUPPOSEE
+ON_NE_LE_FAIT_PAS synchronisation-cloud SUPPOSEE
+VERDICT HONNETE
