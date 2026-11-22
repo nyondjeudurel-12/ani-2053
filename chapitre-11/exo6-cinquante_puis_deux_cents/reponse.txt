@@ -1,0 +1,15 @@
+**Le protocole :**
+
+J'ai effectué les mesures sur un HP ZBook 17 G3 équipé d'un processeur Intel Core i7-6820HQ à 2,70 GHz et d'environ 32 Gio de mémoire RAM. Le système utilisé est Windows 11 Professionnel 64 bits (version 10.0.22631). Le programme a été compilé en configuration Debug avec Jenga 2.10.3 et Clang 18.1.8, pour la cible Windows x86_64. Le commit du moteur utilisé est `0d50a971fb64b39b256a3ad3e99777d096a6beef`. Pour chaque taille, j'ai lancé trois mesures. Chaque mesure correspond à 20 sérialisations puis 20 désérialisations, dont les temps totaux sont divisés par 20. J'ai lancé le programme avec les commandes `Espace.exe 50` et `Espace.exe 200`.
+
+**L'écart entre mes trois mesures :**
+
+Pour 50 images, le temps d'écriture varie de 0,477 à 0,504 ms, soit un écart de 0,027 ms. Le temps de lecture varie de 0,373 à 0,386 ms, soit un écart de 0,013 ms. Les résultats sont donc assez proches. Pour 200 images, l'écart est plus important : 1,033 ms en écriture et 1,581 ms en lecture. La première mesure de 200 images est nettement plus élevée que les deux suivantes. Cela peut venir d'une variation ponctuelle de l'environnement d'exécution. Je l'ai conservée, car elle fait partie des mesures réalisées.
+
+**Ce que coûtent quatre fois plus d'images :**
+
+En passant de 50 à 200 images, le nombre d'images et la taille des données sont multipliés par quatre. La taille passe de 51 832 à 207 232 octets. Le temps moyen d'écriture passe de 0,488 à 2,223 ms, soit environ 4,56 fois plus. Le temps moyen de lecture passe de 0,381 à 2,154 ms, soit environ 5,65 fois plus. Dans mes mesures, les temps augmentent donc un peu plus vite que la quantité d'images. La différence est particulièrement visible en lecture, mais les trois mesures montrent aussi une variabilité importante pour 200 images.
+
+**Ce qui deviendrait limitant en premier :**
+
+À partir de ces résultats, je pense que le coût du parcours des images, de la copie des données et des allocations mémoire pourrait devenir limitant lorsque le nombre d'images augmente. La sérialisation doit parcourir les éléments et écrire leurs données dans le tableau de sortie. La désérialisation doit relire ces données et reconstruire les éléments. Les mesures montrent que ces deux opérations prennent davantage de temps avec 200 images. Cependant, elles ne permettent pas à elles seules d'identifier précisément le composant qui limite les performances. Il faudrait réaliser un profilage pour le confirmer.
