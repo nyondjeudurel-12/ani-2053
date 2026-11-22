@@ -1,4 +1,3 @@
-
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -34,18 +33,15 @@ int main()
     int nombreObservations;
     string mot;
 
-    // Lit le nombre d'observations.
     cin >> mot >> nombreObservations;
 
     vector<Contournement> contournements;
-
-    // Associe chaque nom à sa position dans le vecteur.
     map<string, int> positions;
 
     int horsSeance = 0;
     int ordre = 0;
 
-    // Lit toutes les observations.
+    // Lit les observations de la séance.
     for (int i = 0; i < nombreObservations; ++i)
     {
         string temps;
@@ -55,19 +51,18 @@ int main()
 
         int secondes = convertirTemps(temps);
 
-        // Les observations après 20 minutes sont écartées.
-        if (secondes > 20 * 60)
+        // Ignore les observations après 20 minutes.
+        if (secondes > 1200)
         {
             ++horsSeance;
             continue;
         }
 
-        // Recherche si le contournement a déjà été observé.
         auto position = positions.find(nom);
 
         if (position == positions.end())
         {
-            // Crée un nouveau contournement.
+            // Enregistre un nouveau contournement.
             Contournement nouveau;
 
             nouveau.nom = nom;
@@ -86,7 +81,7 @@ int main()
 
             ++existant.fois;
 
-            // Garde l'instant le plus ancien.
+            // Conserve son instant d'observation le plus ancien.
             if (secondes < existant.premiereObservation)
             {
                 existant.premiereObservation = secondes;
@@ -94,7 +89,7 @@ int main()
         }
     }
 
-    // Lit les noms cités pendant l'entretien.
+    // Lit les contournements cités pendant l'entretien.
     int nombreCites;
     cin >> mot >> nombreCites;
 
@@ -110,14 +105,15 @@ int main()
         ordreCitations.push_back(nom);
     }
 
-    // Vérifie quels contournements ont été déclarés.
+    // Indique si chaque contournement observé a été cité.
     for (Contournement& contournement : contournements)
     {
         contournement.dit =
             nomsCites.find(contournement.nom) != nomsCites.end();
     }
 
-    // Trie les contournements selon les trois critères demandés.
+    // Trie par fréquence, puis par première observation,
+    // puis par ordre de première apparition dans l'entrée.
     sort(contournements.begin(), contournements.end(),
          [](const Contournement& a, const Contournement& b)
          {
@@ -142,7 +138,7 @@ int main()
     for (const Contournement& contournement : contournements)
     {
         cout << contournement.nom
-             << " fois " << contournement.fois
+             << " " << contournement.fois
              << (contournement.dit ? " DIT" : " NON_DIT")
              << '\n';
 
